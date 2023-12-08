@@ -17,10 +17,6 @@ from django.http import (
 )
 from django.shortcuts import redirect, render
 
-import pandas as pd
-
-from sqlalchemy import create_engine
-
 from .forms import (
     UserLoginForms,
 )
@@ -28,9 +24,6 @@ from .models import (
     unit,
 )
 from .services import ExcelReportGenerator
-
-
-engine = create_engine(os.getenv("IVEA_METRIKA", ""))
 
 
 def index(request: HttpRequest) -> HttpResponse:
