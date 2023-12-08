@@ -1,0 +1,89 @@
+    {# Load the tag library #}
+    {% load bootstrap5 %}
+
+    {# Load CSS and JavaScript #}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% block style %}{% endblock %}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Иконки font awesome -->
+    <style type="text/css">
+    #rt-logo {background: url(http://ivea-water.ru/images/frontpage/logo.png) 50% 0 no-repeat !important;}
+    #rt-logo {width: 265px;height: 40px;}
+    </style>
+    <style>
+        .table_center_by_css {
+            width: 300px;
+            border: 1px solid #000;
+            margin: auto;
+        }
+    </style>
+    <link rel="stylesheet" href="/media/css/style_message_save.css">
+
+</head>
+<body>
+    <div class="rt-grid-6 rt-omega">
+        <div class="rt-block  module_rokajaxsearch textright">
+            <div class="module-surround">
+                <div class="module-content">
+                    <form name="rokajaxsearch" id="rokajaxsearch" class="light" action="http://ivea-water.ru/" method="get">
+                        <div class="rokajaxsearch  module_rokajaxsearch textright">
+                            <div class="roksearch-wrapper">
+                                {% if request.user.is_authenticated %}
+                                    {{ user.first_name }} {{ user.last_name }} | <a href="{% url 'logout' %}">Выход</a>
+                                {% else %}
+                                    <a href="{% url 'login' %}">Авторизация</a>
+                                {% endif %}
+                            </div>
+
+                            <input type="hidden" name="searchphrase" value="any">
+                            <input type="hidden" name="limit" value="20">
+                            <input type="hidden" name="ordering" value="newest">
+                            <input type="hidden" name="view" value="search">
+                            <input type="hidden" name="option" value="com_search">
+
+                        </div>
+                        <div id="rokajaxsearch_tmp" style="visibility:hidden;display:none;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error'%}
+                <div class="alert alert-danger" role="alert">
+                  {{ message }}
+                </div>
+            {% else %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                  {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if request.user.is_authenticated %}
+        <div id="message" style="display: none;"></div>
+        {% block body %}{% endblock %}
+        <!-- Загрузка jQuery с CDN -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+        <!-- Загрузка Select2 с CDN -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+        {% block script %}{% endblock %}
+    {% else %}
+        <h4 style="text-align:center">
+            Для того чтобы пользоваться функционалом, необходимо <a href="{% url 'login' %}">авторизоваться</a> !
+        </h4>
+    {% endif %}
+</body>
+</html>
