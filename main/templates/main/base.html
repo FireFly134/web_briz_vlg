@@ -31,6 +31,12 @@
 
     <div class="container-fluid">
         <img class="navbar-brand" src="/media/img/Breeze.png" style="width: 119px;height: 55px;">
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link active" aria-current="page" href="#">Главная</a>
+            <a class="nav-link" href="#">Заявки</a>
+          </div>
+        </div>
     </div>
     <div style="width: 300px;">
         {% if request.user.is_authenticated %}
