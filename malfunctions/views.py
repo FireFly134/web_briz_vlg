@@ -10,7 +10,8 @@ from django.http import (
 )
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import ListView
+from django.views.generic.edit import CreateView, UpdateView
 
 from django_stubs_ext import QuerySetAny
 
@@ -32,9 +33,7 @@ class MalfunctionsList(ListView):
         return ModelMalfunctions.objects.all()
 
 
-class MalfunctionsUpdate(
-    UpdateView,
-):
+class MalfunctionsUpdate(UpdateView,):
     model = ModelMalfunctions
     form_class = UpdateModelMalfunctionsForm
     template_name = "malfunctions/edit.html"
@@ -54,9 +53,7 @@ def delete_contact(
     raise PermissionDenied()
 
 
-class MalfunctionsCreate(
-    CreateView
-):
+class MalfunctionsCreate(CreateView):
     model = ModelMalfunctions
     form_class = CreateMalfunctionsForm
     template_name = "malfunctions/create.html"
@@ -64,9 +61,20 @@ class MalfunctionsCreate(
 
     def form_valid(
         self,
-        form: CreateMalfunctionsForm,
-    ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
+        form: CreateMalfunctionsForm
+    ):
         report = form.save(commit=False)
         report.save()
+        return super().form_valid(form)
 
-        return redirect("list")
+    def form_invalid(
+            self,
+            form: CreateMalfunctionsForm
+    ):
+        print("что-то не так!")
+        # Добавьте здесь необходимые действия для обработки невалидной формы
+        errors = form.errors.as_data()
+        print(errors)
+        # Теперь переменная errors содержит информацию о том, почему форма невалидна
+        return self.render_to_response(
+            self.get_context_data(form=form, errors=errors))

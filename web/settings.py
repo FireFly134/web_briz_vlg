@@ -114,9 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "ru"
 
-TIME_ZONE = 'UTC'
-
-DATE_INPUT_FORMATS = ("%d-%m-%Y", "%Y-%m-%d")
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 

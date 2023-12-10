@@ -22,7 +22,7 @@ class ModelMalfunctions(models.Model):
     dispatcher = models.ForeignKey(
         DispatcherList, on_delete=models.CASCADE
     )
-    date_time_accepted = models.DateField(
+    date_time_accepted = models.DateTimeField(
         verbose_name="Дата приема заявки",
         default=now(),
     )
@@ -31,9 +31,9 @@ class ModelMalfunctions(models.Model):
         related_name='mechanics',
         default=None
     )
-    date_time_closed = models.DateField(
+    date_time_closed = models.DateTimeField(
         verbose_name="Дата закрытия заявки",
-        default=now(),
+        null=True,
     )
     malfunction_and_cause = models.CharField(
         verbose_name="Неисправность и причина заявки",

@@ -41,7 +41,7 @@ class CreateMalfunctionsForm(forms.ModelForm):
         labels = labels_dict
         widgets = {
             'date_time_accepted': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
-            'date_time_closed': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
+            'date_time_closed': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
 
         }
 
