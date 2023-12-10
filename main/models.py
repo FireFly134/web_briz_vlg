@@ -28,7 +28,7 @@ class DispatcherList(models.Model):
         return f"{self.fio}"
 
     class Meta:
-        verbose_name = "диспетчер"
+        verbose_name = "диспетчера"
         verbose_name_plural = "Список диспетчеров"
 
 
@@ -42,5 +42,5 @@ class MechanicsList(models.Model):
         return f"{self.fio}"
 
     class Meta:
-        verbose_name = "механик"
+        verbose_name = "механика"
         verbose_name_plural = "Список механиков"
