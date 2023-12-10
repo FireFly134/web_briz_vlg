@@ -1,0 +1,83 @@
+{% extends 'main/base.html' %}
+{% block title %}Создание новой заявки{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+        <h2 class="mb-4">Создание новой заявки</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ form.address.label_tag }}
+                {{ form.address }}
+            </div>
+
+            <div class="form-group">
+                {{ form.entrance.label_tag }}
+                {{ form.entrance }}
+            </div>
+
+            <div class="form-group">
+                {{ form.flat_or_tel.label_tag }}
+                {{ form.flat_or_tel }}
+            </div>
+
+            <div class="form-group">
+                {{ form.dispatcher.label_tag }}
+                {{ form.dispatcher }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.date_time_accepted.label_tag }}
+                {{ form.date_time_accepted }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.mechanics.label_tag }}
+                {{ form.mechanics }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.date_time_closed.label_tag }}
+                {{ form.date_time_closed }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.malfunction_and_cause.label_tag }}
+                {{ form.malfunction_and_cause }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.executor_mechanics.label_tag }}
+                {{ form.executor_mechanics }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.transfer_of_the_application.label_tag }}
+                {{ form.transfer_of_the_application }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+            </div>
+
+            <div class="row">
+                <div class="col-1">
+                    <button type="submit" class="btn btn-primary mt-3" value="Create">Создать</button>
+                </div>
+                <div class="col-1">
+                    <a href="{% url 'list' %}" class="btn btn-secondary mt-3">Назад</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function () {
+        // Используем Select2 для стилизации и добавления функциональности поиска
+        $(".select2").select2();
+    });
+</script>
+{% endblock %}

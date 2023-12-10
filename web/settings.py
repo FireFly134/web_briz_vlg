@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "main.apps.MainConfig",
+    "malfunctions.apps.MalfunctionsConfig",
     "bootstrap5",
 ]
 
@@ -114,6 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = "ru"
 
 TIME_ZONE = 'UTC'
+
+DATE_INPUT_FORMATS = ("%d-%m-%Y", "%Y-%m-%d")
 
 USE_I18N = True
 

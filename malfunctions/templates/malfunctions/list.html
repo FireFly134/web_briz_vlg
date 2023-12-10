@@ -1,0 +1,149 @@
+{% extends 'main/base.html' %}
+{% block title %}Cписок потенциальных заказчиков{% endblock %}
+{% block style %}
+<style>.doc_table {
+  font-size: 12pt;
+  font-family: Arial;
+  color: black;
+}</style>
+{% endblock %}
+
+{% block body %}
+
+<br>
+<div class="d-flex justify-content-between align-items-center" style="margin-left: 25px; margin-right: 25px;">
+	<div class="btn-group" role="group" aria-label="Первая группа">
+		<a href="{% url 'create' %}" class="btn btn-primary mt-3" id="btn-group-1">Создать новую заявку</a>
+		<a href="{% url 'new_address' %}" class="btn btn-primary mt-3" id="btn-group-2">Добавить новый адрес</a>
+
+	</div>
+</div>
+<div style="margin-left: 25px; margin-right: 25px;">
+	<input type="text" id="filterInput" placeholder="Введите значение для фильтрации" oninput="handleInput(event)">
+	<input type="image" src="/static/admin/img/icon-deletelink.svg" alt="Очистить фильтр" title="Очистить фильтр" onclick="NullFilterTable()" style="width: 20px; height: 20px; margin-top: -10px;">
+</div>
+<table class="table_center_by_css table table-sm table-bordered" border="1" cellpadding="1" cellspacing="1" style="width:98%" id="DocTable">
+	<thead style="position: sticky;top: 0">
+		<tr>
+			<td class="doc_table" scope="col" id="N" data-column="N" style="background: #ebebeb;text-align:center; width:50px">№ п/п</td>
+			<td class="doc_table" scope="col" id="address" data-column="address" style="background: #ebebeb;text-align:center; width:300px;">Адрес</td>
+			<td class="doc_table" scope="col" id="entrance" data-column="entrance" style="background: #ebebeb;text-align:center;">Подъезд</td>
+			<td class="doc_table" scope="col" id="flat_or_tel" data-column="flat_or_tel" style="background: #ebebeb;text-align:center; width:300px;">Номер квартины или телефона</td>
+			<td class="doc_table" scope="col" id="date_time_accepted" data-column="date_time_accepted" style="background: #ebebeb;text-align:center;">Дата приема заявки</td>
+			<td class="doc_table" scope="col" id="mechanics" data-column="mechanics" style="background: #ebebeb;text-align:center;">ФИО механика</td>
+			<td class="doc_table" scope="col" id="date_time_closed" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Дата закрытия заявки</td>
+			<td class="doc_table" scope="col" id="malfunction_and_cause" data-column="malfunction_and_cause" style="background: #ebebeb;text-align:center;">Неисправность и причина заявки</td>
+			<td class="doc_table" scope="col" id="transfer_of_the_application" data-column="transfer_of_the_application" style="background: #ebebeb;text-align:center;">Передача по смене</td>
+			<td class="doc_table" scope="col" id="description" data-column="description" style="background: #ebebeb;text-align:center;">Примечания</td>
+			<td class="doc_table" scope="col" id="move" style="background: #ebebeb;text-align:center; width:100px">Действия</td>
+		</tr>
+	</thead>
+	<tbody id="tbody"></tbody>
+</table>
+{% endblock %}
+{% block script %}
+<script>
+	let rowCounter = 1; // Счетчик номера п/п
+	//
+	function addTableRow(id, address, entrance, flat_or_tel, date_time_accepted, mechanics, date_time_closed, malfunction_and_cause, transfer_of_the_application, description) {
+		const edit_url = `/malfunctions/edit/${id}`
+		const delete_url = `/malfunctions/delete/${id}`
+		const newRow = tbody.insertRow();
+		const cell1 = newRow.insertCell(0);
+		const cell2 = newRow.insertCell(1);
+		const cell3 = newRow.insertCell(2);
+		const cell4 = newRow.insertCell(3);
+		const cell5 = newRow.insertCell(4);
+		const cell6 = newRow.insertCell(5);
+		const cell7 = newRow.insertCell(6);
+		const cell8 = newRow.insertCell(7);
+		const cell9 = newRow.insertCell(8);
+		const cell10 = newRow.insertCell(9);
+		const cell11 = newRow.insertCell(10);
+
+		cell1.textContent = rowCounter++;
+		cell2.textContent = address;
+		cell3.textContent = entrance;
+		cell4.textContent = flat_or_tel;
+		cell5.textContent = date_time_accepted;
+		cell6.textContent = mechanics;
+		cell7.textContent = date_time_closed;
+		cell8.textContent = malfunction_and_cause;
+		cell9.textContent = transfer_of_the_application;
+		cell10.textContent = description;
+
+		// Создаем ссылку для редактирования
+		const editLink = document.createElement("a");
+		editLink.href = edit_url;
+		editLink.className = "btn btn-link";
+		editLink.title = "Редактировать";
+
+		// Создаем иконку для редактирования
+		const editIcon = document.createElement("i");
+		editIcon.className = "fas fa-pencil-alt";
+
+		// Добавляем иконку в ссылку
+		editLink.appendChild(editIcon);
+
+		// Создаем ссылку для удаления
+		const deleteLink = document.createElement("a");
+		deleteLink.href = delete_url;
+		deleteLink.className = "btn btn-link text-danger";
+		deleteLink.title = "Удалить";
+
+		// Создаем иконку для удаления
+		const deleteIcon = document.createElement("i");
+		deleteIcon.className = "fas fa-trash-alt";
+
+		// Добавляем иконку в ссылку
+		deleteLink.appendChild(deleteIcon);
+
+		// Добавляем ссылки в ячейку
+		cell11.appendChild(editLink);
+		cell11.appendChild(deleteLink);
+	}
+
+	//Фильтр по значениям в таблице открыт договор и строительная готовность, работает через кнопки
+	function NullFilterTable() {
+	// Обновляем значение скрытого поля
+		document.getElementById('filterInput').value = '';
+		filterTable()
+		}
+	function filterTable(inputElement = document.getElementById("filterInput").value) {
+	  var filter, table, tr, td, i, j, txtValue;
+	  filter = inputElement.toUpperCase();
+	  table = document.getElementById("DocTable");
+	  tr = table.getElementsByTagName("tr");
+
+	  // Проходим по каждой строке таблицы, начиная с индекса 2 (пропускаем первые две строки)
+	  for (i = 1; i < tr.length; i++) {
+		td = tr[i].getElementsByTagName("td");
+		var rowVisible = false;
+		for (j = 0; j < td.length; j++) {
+		  if (td[j]) {
+			txtValue = td[j].textContent || td[j].innerText;
+
+			if (txtValue.toUpperCase().indexOf(filter) > -1) {
+			  rowVisible = true;
+			  break;
+			}
+		  }
+		}
+
+		// Показываем или скрываем строку в зависимости от значения флага
+		tr[i].style.display = rowVisible ? "" : "none";
+	  }
+	}
+	function handleInput(event) {
+		filterTable(event.target.value);
+	}
+
+	document.addEventListener("DOMContentLoaded", function () {
+		let tbody = document.getElementById('tbody');
+
+		{% for item in list %}
+			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.mechanics|safe }}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.transfer_of_the_application|safe }}`, `{{ item.description|safe }}`);
+		{% endfor %}
+	});
+</script>
+{% endblock %}

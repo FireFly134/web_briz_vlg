@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Список адресов
 class AddressList(models.Model):
     address = models.CharField(
@@ -17,29 +18,29 @@ class AddressList(models.Model):
         verbose_name_plural = "Список адресов"
 
 
-# Сервисные заявки
-class ServiceRequests(models.Model):
-    name = models.CharField(
-        max_length=200, verbose_name="Наименование", db_index=True
-    )
-    description = models.CharField(
-        max_length=200, verbose_name="Описание", db_index=True
-    )
-    address = models.ForeignKey(
-        AddressList, on_delete=models.CASCADE
-    )
-    date = models.DateTimeField(
-        verbose_name="Дата",
-    )
-    status = models.IntegerField(
-        verbose_name="Статус заявки",
+# Список диспетчеров
+class DispatcherList(models.Model):
+    fio = models.CharField(
+        max_length=200, verbose_name="ФИО диспетчера"
     )
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.fio}"
 
     class Meta:
-        verbose_name = "сервисная заявка"
-        verbose_name_plural = "Сервисные заявки"
-        # ordering = ['']
+        verbose_name = "диспетчер"
+        verbose_name_plural = "Список диспетчеров"
 
+
+# Список механиков
+class MechanicsList(models.Model):
+    fio = models.CharField(
+        max_length=200, verbose_name="ФИО механика"
+    )
+
+    def __str__(self) -> str:
+        return f"{self.fio}"
+
+    class Meta:
+        verbose_name = "механик"
+        verbose_name_plural = "Список механиков"
