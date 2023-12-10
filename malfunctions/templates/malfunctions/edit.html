@@ -1,0 +1,112 @@
+{% extends 'main/base.html' %}
+{% block title %}Редактирование контактной информации о заказчике{% endblock %}
+{% block style %}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">{% endblock %}
+{% block body %}
+<div class="container mt-4">
+        <h2 class="mb-4">Редактирование контактной информации о заказчике</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+                        <div class="form-group">
+                {{ form.address.label_tag }}
+                {{ form.address }}
+            </div>
+
+            <div class="form-group">
+                {{ form.entrance.label_tag }}
+                {{ form.entrance }}
+            </div>
+
+            <div class="form-group">
+                {{ form.flat_or_tel.label_tag }}
+                {{ form.flat_or_tel }}
+            </div>
+
+            <div class="form-group">
+                {{ form.dispatcher.label_tag }}
+                {{ form.dispatcher }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.date_time_accepted.label_tag }}
+                {{ form.date_time_accepted }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.mechanics.label_tag }}
+                {{ form.mechanics }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.date_time_closed.label_tag }}
+                {{ form.date_time_closed }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.malfunction_and_cause.label_tag }}
+                {{ form.malfunction_and_cause }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.executor_mechanics.label_tag }}
+                {{ form.executor_mechanics }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.transfer_of_the_application.label_tag }}
+                {{ form.transfer_of_the_application }}
+            </div>
+
+            <div class="form-group mt-2">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+            </div>
+
+            <div class="row">
+                <div class="col-1">
+                    <button type="submit" class="btn btn-primary mt-3" value="Create">Сохранить</button>
+                </div>
+                <div class="col-1">
+                    <a href="{% url 'list' %}" class="btn btn-secondary mt-3">Назад</a>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Удалить
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Удаление</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Вы уверены, что хотите удалить заявку"<strong>{{ info.address }}</strong>"?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                            <a href="{% url 'delete' info.id %}" class="btn btn-danger">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function () {
+        // Используем Select2 для стилизации и добавления функциональности поиска
+        $(".select2").select2();
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        var selectElement = document.getElementById('id_dispatcher');
+        var firstOption = selectElement.options[0];
+        firstOption.disabled = true;
+    });
+</script>
+{% endblock %}

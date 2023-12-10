@@ -25,6 +25,7 @@ from .settings import DEBUG, MEDIA_ROOT, MEDIA_URL
 urlpatterns: list[Any] = [
     path("admin/", admin.site.urls),
     path("", include("main.urls")),
+    path("malfunctions/", include("malfunctions.urls")),
 ]
 
 if DEBUG:
