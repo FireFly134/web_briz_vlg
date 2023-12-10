@@ -40,8 +40,16 @@ class CreateMalfunctionsForm(forms.ModelForm):
         fields = labels_dict.keys()
         labels = labels_dict
         widgets = {
-            'date_time_accepted': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
-            'date_time_closed': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'date_time_accepted': forms.DateTimeInput(
+                attrs={'type': 'datetime-local'},
+                format='%Y-%m-%dT%H:%M'),
+            'date_time_closed': forms.DateTimeInput(
+                attrs={'type': 'datetime-local'}
+            ),
+            'malfunction_and_cause': forms.Textarea(
+                attrs={'rows': 5, 'cols': 40}
+            ),
+            'description': forms.Textarea(attrs={'rows': 10, 'cols': 40}),
 
         }
 
