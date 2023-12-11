@@ -45,7 +45,7 @@ class ModelMalfunctions(models.Model):
     )
     transfer_of_the_application = models.BooleanField(
         verbose_name="Передача по смене",
-        default='False',
+        default=False,
     )
     executor_mechanics = models.ForeignKey(
         MechanicsList, on_delete=models.CASCADE,
@@ -58,7 +58,7 @@ class ModelMalfunctions(models.Model):
     )
     status = models.BooleanField(
         verbose_name="Статус заявки",
-        default='True',
+        default=True,
     )
 
     def __str__(self) -> str:
