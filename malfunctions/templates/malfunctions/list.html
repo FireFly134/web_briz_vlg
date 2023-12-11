@@ -1,5 +1,5 @@
 {% extends 'main/base.html' %}
-{% block title %}Cписок потенциальных заказчиков{% endblock %}
+{% block title %}Cписок сервисных заявок{% endblock %}
 {% block style %}
 <style>.doc_table {
   font-size: 12pt;
@@ -13,29 +13,47 @@
 <br>
 <div class="d-flex justify-content-between align-items-center" style="margin-left: 25px; margin-right: 25px;">
 	<div class="btn-group" role="group" aria-label="Первая группа">
-		<a href="{% url 'create' %}" class="btn btn-primary mt-3" id="btn-group-1">Создать новую заявку</a>
-		<a href="{% url 'new_address' %}" class="btn btn-primary mt-3" id="btn-group-2">Добавить новый адрес</a>
+		<button type="button" class="btn btn-primary mt-3" onclick="filterTableButton('True')" id="btn-group-1">Активные заявки</button>
+		<button type="button" class="btn btn-secondary mt-3" onclick="filterTableButton('False')" id="btn-group-2">Архив заявок</button>
+		<a href="{% url 'create' %}" class="btn btn-success mt-3" id="btn-group-4">Создать новую заявку</a>
 
 	</div>
 </div>
 <div style="margin-left: 25px; margin-right: 25px;">
-	<input type="text" id="filterInput" placeholder="Введите значение для фильтрации" oninput="handleInput(event)">
+	<input type="text" id="filterInput" placeholder="Введите значение для фильтрации" oninput="handleInput(event)"  style="width: 500px;">
 	<input type="image" src="/static/admin/img/icon-deletelink.svg" alt="Очистить фильтр" title="Очистить фильтр" onclick="NullFilterTable()" style="width: 20px; height: 20px; margin-top: -10px;">
 </div>
-<table class="table_center_by_css table table-sm table-bordered" border="1" cellpadding="1" cellspacing="1" style="width:98%" id="DocTable">
+<table class="table_center_by_css table table-sm table-bordered" border="1" cellpadding="1" cellspacing="1" style="width:98%" id="Table">
 	<thead style="position: sticky;top: 0">
+		<tr>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:50px"></td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:300px;"></td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:50px;"></td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;"></td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:300px;">Заявка принята</td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка принята</td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка передана</td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка передана</td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;"></td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;"></td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;"></td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:100px"></td>
+			<td class="doc_table" scope="col" style="display: none"></td>
+		</tr>
 		<tr>
 			<td class="doc_table" scope="col" id="N" data-column="N" style="background: #ebebeb;text-align:center; width:50px">№ п/п</td>
 			<td class="doc_table" scope="col" id="address" data-column="address" style="background: #ebebeb;text-align:center; width:300px;">Адрес</td>
+			<td class="doc_table" scope="col" id="num_house" data-column="num_house" style="background: #ebebeb;text-align:center; width:50px;">Номер дома</td>
 			<td class="doc_table" scope="col" id="entrance" data-column="entrance" style="background: #ebebeb;text-align:center;">Подъезд</td>
 			<td class="doc_table" scope="col" id="flat_or_tel" data-column="flat_or_tel" style="background: #ebebeb;text-align:center; width:300px;">Номер квартины или телефона</td>
-			<td class="doc_table" scope="col" id="date_time_accepted" data-column="date_time_accepted" style="background: #ebebeb;text-align:center;">Дата приема заявки</td>
+			<td class="doc_table" scope="col" id="date_time_accepted" data-column="date_time_accepted" style="background: #ebebeb;text-align:center;">Дата и время приема заявки</td>
 			<td class="doc_table" scope="col" id="mechanics" data-column="mechanics" style="background: #ebebeb;text-align:center;">ФИО механика</td>
-			<td class="doc_table" scope="col" id="date_time_closed" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Дата закрытия заявки</td>
+			<td class="doc_table" scope="col" id="date_time_closed" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Дата и время закрытия заявки</td>
 			<td class="doc_table" scope="col" id="malfunction_and_cause" data-column="malfunction_and_cause" style="background: #ebebeb;text-align:center;">Неисправность и причина заявки</td>
 			<td class="doc_table" scope="col" id="transfer_of_the_application" data-column="transfer_of_the_application" style="background: #ebebeb;text-align:center;">Передача по смене</td>
 			<td class="doc_table" scope="col" id="description" data-column="description" style="background: #ebebeb;text-align:center;">Примечания</td>
 			<td class="doc_table" scope="col" id="move" style="background: #ebebeb;text-align:center; width:100px">Действия</td>
+			<td class="doc_table" scope="col" id="status" style="display: none">status</td>
 		</tr>
 	</thead>
 	<tbody id="tbody"></tbody>
@@ -45,7 +63,7 @@
 <script>
 	let rowCounter = 1; // Счетчик номера п/п
 	//
-	function addTableRow(id, address, entrance, flat_or_tel, date_time_accepted, mechanics, date_time_closed, malfunction_and_cause, transfer_of_the_application, description) {
+	function addTableRow(id, address, num_house, entrance, flat_or_tel, date_time_accepted, mechanics, date_time_closed, malfunction_and_cause, transfer_of_the_application, description, status) {
 		const edit_url = `/malfunctions/edit/${id}`
 		const delete_url = `/malfunctions/delete/${id}`
 		const newRow = tbody.insertRow();
@@ -60,17 +78,23 @@
 		const cell9 = newRow.insertCell(8);
 		const cell10 = newRow.insertCell(9);
 		const cell11 = newRow.insertCell(10);
+		const cell12 = newRow.insertCell(11);
+		const cell13 = newRow.insertCell(12);
 
 		cell1.textContent = rowCounter++;
 		cell2.textContent = address;
-		cell3.textContent = entrance;
-		cell4.textContent = flat_or_tel;
-		cell5.textContent = date_time_accepted;
-		cell6.textContent = mechanics;
-		cell7.textContent = date_time_closed;
-		cell8.textContent = malfunction_and_cause;
-		cell9.textContent = transfer_of_the_application;
-		cell10.textContent = description;
+		cell3.textContent = num_house;
+		cell4.textContent = entrance;
+		cell5.textContent = flat_or_tel;
+		cell6.textContent = date_time_accepted;
+		cell7.textContent = mechanics;
+		cell8.textContent = date_time_closed;
+		cell9.textContent = malfunction_and_cause;
+		cell10.textContent = transfer_of_the_application;
+		cell11.textContent = description;
+		cell13.textContent = status;
+		cell13.style.display = "none";
+
 
 		// Создаем ссылку для редактирования
 		const editLink = document.createElement("a");
@@ -99,8 +123,8 @@
 		deleteLink.appendChild(deleteIcon);
 
 		// Добавляем ссылки в ячейку
-		cell11.appendChild(editLink);
-		cell11.appendChild(deleteLink);
+		cell12.appendChild(editLink);
+		cell12.appendChild(deleteLink);
 	}
 
 	//Фильтр по значениям в таблице открыт договор и строительная готовность, работает через кнопки
@@ -142,8 +166,9 @@
 		let tbody = document.getElementById('tbody');
 
 		{% for item in list %}
-			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.mechanics|safe }}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.transfer_of_the_application|safe }}`, `{{ item.description|safe }}`);
+			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.num_house|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.mechanics|safe }}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.transfer_of_the_application|safe }}`, `{{ item.description|safe }}`, `{{ item.status|safe }}`);
 		{% endfor %}
 	});
 </script>
+<script src="/media/js/filter_table.js"></script>
 {% endblock %}

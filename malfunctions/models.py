@@ -13,6 +13,10 @@ class ModelMalfunctions(models.Model):
     address = models.ForeignKey(
         AddressList, on_delete=models.CASCADE
     )
+    num_house = models.CharField(
+        verbose_name="Номер дома",
+        default="-",
+    )
     entrance = models.CharField(
         verbose_name="Подъезд",
     )
@@ -37,10 +41,11 @@ class ModelMalfunctions(models.Model):
     )
     malfunction_and_cause = models.CharField(
         verbose_name="Неисправность и причина заявки",
+        null=True,
     )
     transfer_of_the_application = models.BooleanField(
         verbose_name="Передача по смене",
-        default=False,
+        default='False',
     )
     executor_mechanics = models.ForeignKey(
         MechanicsList, on_delete=models.CASCADE,
@@ -49,6 +54,11 @@ class ModelMalfunctions(models.Model):
     )
     description = models.CharField(
         verbose_name="Примечания",
+        null=True,
+    )
+    status = models.BooleanField(
+        verbose_name="Статус заявки",
+        default='True',
     )
 
     def __str__(self) -> str:

@@ -4,14 +4,11 @@ from django.db import models
 # Список адресов
 class AddressList(models.Model):
     address = models.CharField(
-        max_length=200, verbose_name="Адрес"
-    )
-    num_house = models.CharField(
-        max_length=10, verbose_name="Номер дома"
+        verbose_name="Адрес"
     )
 
     def __str__(self) -> str:
-        return f"{self.address}, {self.num_house}"
+        return str(self.address)
 
     class Meta:
         verbose_name = "адрес"
@@ -25,7 +22,7 @@ class DispatcherList(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.fio}"
+        return str(self.fio)
 
     class Meta:
         verbose_name = "диспетчера"
@@ -39,7 +36,7 @@ class MechanicsList(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.fio}"
+        return str(self.fio)
 
     class Meta:
         verbose_name = "механика"

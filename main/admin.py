@@ -8,19 +8,10 @@ from main.models import (
 
 
 class AddressListAdmin(admin.ModelAdmin):
-    list_display = (
-        "address",
-        "num_house",
-    )
+    list_display = ("address",)
     list_display_links = ("address",)
-    search_fields = (
-        "address",
-        "num_house",
-    )
-    filter = (
-        "address",
-        "num_house",
-    )
+    search_fields = ("address",)
+    filter = ("address",)
 
 
 class DispatcherListAdmin(admin.ModelAdmin):
