@@ -1,15 +1,20 @@
 {% extends 'main/base.html' %}
-{% block title %}Редактирование контактной информации о заказчике{% endblock %}
+{% block title %}Редактирование заявки{% endblock %}
 {% block style %}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">{% endblock %}
 {% block body %}
 <div class="container mt-4">
-        <h2 class="mb-4">Редактирование контактной информации о заказчике</h2>
-        <form method="post" enctype="multipart/form-data">
+        <h2 class="mb-4">Редактирование заявки</h2>
+        <form method="post">
             {% csrf_token %}
 
-                        <div class="form-group">
+            <div class="form-group">
                 {{ form.address.label_tag }}
                 {{ form.address }}
+            </div>
+
+            <div class="form-group">
+                {{ form.num_house.label_tag }}
+                {{ form.num_house }}
             </div>
 
             <div class="form-group">
@@ -62,6 +67,11 @@
                 {{ form.description }}
             </div>
 
+            <div class="form-group mt-2">
+                {{ form.status.label_tag }}
+                {{ form.status }}
+            </div>
+
             <div class="row">
                 <div class="col-1">
                     <button type="submit" class="btn btn-primary mt-3" value="Create">Сохранить</button>
@@ -84,7 +94,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            Вы уверены, что хотите удалить заявку"<strong>{{ info.address }}</strong>"?
+                            Вы уверены, что хотите удалить заявку?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
@@ -103,10 +113,13 @@
         // Используем Select2 для стилизации и добавления функциональности поиска
         $(".select2").select2();
     });
-    document.addEventListener('DOMContentLoaded', function () {
-        var selectElement = document.getElementById('id_dispatcher');
+    function update_select(select_id){
+        var selectElement = document.getElementById(`${select_id}`);
         var firstOption = selectElement.options[0];
         firstOption.disabled = true;
+        };
+    document.addEventListener('DOMContentLoaded', function () {
+        update_select('id_dispatcher')
     });
 </script>
 {% endblock %}

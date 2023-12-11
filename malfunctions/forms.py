@@ -6,6 +6,7 @@ from .models import ModelMalfunctions
 
 labels_dict: dict[str, str] = {
     "address": "Адрес",
+    "num_house": "Номер дома",
     "entrance": "Подъезд",
     "flat_or_tel": "Номер квартины или телефона",
     "dispatcher": "ФИО диспетчера",
@@ -16,6 +17,7 @@ labels_dict: dict[str, str] = {
     "transfer_of_the_application": "Передача по смене",
     "executor_mechanics": "ФИО исполнителя",
     "description": "Примечания",
+    "status": "Статус заявки"
 }
 
 
@@ -24,6 +26,7 @@ class CreateMalfunctionsForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
             if (field.name != "transfer_of_the_application"
+                    and field.name != "status"
                     and "class" not in field.field.widget.attrs):
                 if (field.name != "address"
                         and field.name != "dispatcher"
@@ -54,5 +57,5 @@ class CreateMalfunctionsForm(forms.ModelForm):
         }
 
 
-class UpdateModelMalfunctionsForm(ModelMalfunctions):
+class UpdateModelMalfunctionsForm(CreateMalfunctionsForm):
     pass
