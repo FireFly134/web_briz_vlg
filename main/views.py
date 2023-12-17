@@ -238,47 +238,47 @@ class SimCardCreate(PatternCreate):
 def address_delete(
     request: HttpRequest,
     info_id: int,
-) -> None:
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     model = AddressList
     url_name = "address_list"
-    pattern_delete(request, info_id, model, url_name)
+    return pattern_delete(request, info_id, model, url_name)
 
 
 @login_required
 def dispatcher_delete(
     request: HttpRequest,
     info_id: int,
-) -> None:
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     model = DispatcherList
     url_name = "dispatcher_list"
-    pattern_delete(request, info_id, model, url_name)
+    return pattern_delete(request, info_id, model, url_name)
 
 
 @login_required
 def mechanics_delete(
     request: HttpRequest,
     info_id: int,
-) -> None:
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     model = MechanicsList
     url_name = "mechanics_list"
-    pattern_delete(request, info_id, model, url_name)
+    return pattern_delete(request, info_id, model, url_name)
 
 
 @login_required
 def routers_delete(
     request: HttpRequest,
     info_id: int,
-) -> None:
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     model = Routers
     url_name = "routers_list"
-    pattern_delete(request, info_id, model, url_name)
+    return pattern_delete(request, info_id, model, url_name)
 
 
 @login_required
 def simcard_delete(
     request: HttpRequest,
     info_id: int,
-) -> None:
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
     model = SimCard
     url_name = "simcard_list"
-    pattern_delete(request, info_id, model, url_name)
+    return pattern_delete(request, info_id, model, url_name)
