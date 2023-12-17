@@ -85,38 +85,36 @@ class PatternUpdate(
     pk_url_kwarg = "info_id"
     context_object_name = "info"
 
-#
-# @login_required
-# def pattern_delete(
-#     request: HttpRequest, info_id: int
-# ) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
-#     info = get_model.objects.get(pk=info_id)
-#     if request.user.is_superuser:
-#         info.delete()
-#         return redirect("address_list")
-#     raise PermissionDenied()
-#
-#
-# class PatternCreate(CreateView):
-#     model = get_model
-#     form_class = get_form_class
-#     template_name = f"{path}create.html"
-#
-#
-#     def form_valid(self, form: form_class):
-#         report = form.save(commit=False)
-#         report.save()
-#         return super().form_valid(form)
-#
-#     def form_invalid(self, form: form_class):
-#         print("что-то не так!")
-#         # Добавьте здесь необходимые действия для обработки невалидной формы
-#         errors = form.errors.as_data()
-#         print(errors)
-#         # Теперь переменная errors содержит информацию о том, почему форма невалидна
-#         return self.render_to_response(
-#             self.get_context_data(form=form, errors=errors)
-#         )
+
+@login_required
+def pattern_delete(
+    request: HttpRequest,
+    info_id: int,
+    model: Type[Model],
+    url_name: str,
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
+    info = model.objects.get(pk=info_id)
+    if request.user.is_superuser:
+        info.delete()
+        return redirect(url_name)
+    raise PermissionDenied()
+
+
+class PatternCreate(CreateView):
+    def form_valid(self, form):
+        report = form.save(commit=False)
+        report.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print("что-то не так!")
+        # Добавьте здесь необходимые действия для обработки невалидной формы
+        errors = form.errors.as_data()
+        print(errors)
+        # Теперь переменная errors содержит информацию о том, почему форма невалидна
+        return self.render_to_response(
+            self.get_context_data(form=form, errors=errors)
+        )
 
 ##############################################################################
 ##############################################################################
@@ -192,4 +190,95 @@ class SimCardUpdate(PatternUpdate):
     template_name = "main/simcard/list.html"
     success_url = reverse_lazy("simcard_list")
 
+##############################################################################
+##############################################################################
+##############################################################################
 
+
+class AddressCreate(PatternCreate):
+    form_class = AddressListForm
+    model = AddressList
+    template_name = "main/address/create.html"
+    success_url = reverse_lazy("new_address")
+
+
+class DispatcherCreate(PatternCreate):
+    form_class = DispatcherList
+    model = DispatcherList
+    template_name = "main/dispatcher/create.html"
+    success_url = reverse_lazy("new_dispatcher")
+
+
+class MechanicsCreate(PatternCreate):
+    form_class = MechanicsListForm
+    model = MechanicsList
+    template_name = "main/mechanics/create.html"
+    success_url = reverse_lazy("new_mechanics")
+
+
+class RoutersCreate(PatternCreate):
+    form_class = RoutersForm
+    model = Routers
+    template_name = "main/routers/create.html"
+    success_url = reverse_lazy("new_routers")
+
+
+class SimCardCreate(PatternCreate):
+    form_class = SimCardForm
+    model = SimCard
+    template_name = "main/simcard/create.html"
+    success_url = reverse_lazy("new_simcard")
+
+
+##############################################################################
+##############################################################################
+##############################################################################
+
+@login_required
+def address_delete(
+    request: HttpRequest,
+    info_id: int,
+) -> None:
+    model = AddressList
+    url_name = "address_list"
+    pattern_delete(request, info_id, model, url_name)
+
+
+@login_required
+def dispatcher_delete(
+    request: HttpRequest,
+    info_id: int,
+) -> None:
+    model = DispatcherList
+    url_name = "dispatcher_list"
+    pattern_delete(request, info_id, model, url_name)
+
+
+@login_required
+def mechanics_delete(
+    request: HttpRequest,
+    info_id: int,
+) -> None:
+    model = MechanicsList
+    url_name = "mechanics_list"
+    pattern_delete(request, info_id, model, url_name)
+
+
+@login_required
+def routers_delete(
+    request: HttpRequest,
+    info_id: int,
+) -> None:
+    model = Routers
+    url_name = "routers_list"
+    pattern_delete(request, info_id, model, url_name)
+
+
+@login_required
+def simcard_delete(
+    request: HttpRequest,
+    info_id: int,
+) -> None:
+    model = SimCard
+    url_name = "simcard_list"
+    pattern_delete(request, info_id, model, url_name)

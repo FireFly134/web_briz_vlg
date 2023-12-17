@@ -44,7 +44,7 @@ class SimCard(models.Model):
         null=False,
         verbose_name="Номер телефона",
     )
-    ip = models.CharField(max_length=12, verbose_name="ip симки")
+    ip = models.CharField(max_length=12, verbose_name="IP симкарты")
     operator_name = models.CharField(
         null=False,
         verbose_name="Наименование оператора")
