@@ -3,9 +3,7 @@ from django.db import models
 
 # Список адресов
 class AddressList(models.Model):
-    address = models.CharField(
-        verbose_name="Адрес"
-    )
+    address = models.CharField(verbose_name="Адрес")
 
     def __str__(self) -> str:
         return str(self.address)
@@ -17,9 +15,7 @@ class AddressList(models.Model):
 
 # Список диспетчеров
 class DispatcherList(models.Model):
-    fio = models.CharField(
-        max_length=200, verbose_name="ФИО диспетчера"
-    )
+    fio = models.CharField(max_length=200, verbose_name="ФИО диспетчера")
 
     def __str__(self) -> str:
         return str(self.fio)
@@ -31,9 +27,7 @@ class DispatcherList(models.Model):
 
 # Список механиков
 class MechanicsList(models.Model):
-    fio = models.CharField(
-        max_length=200, verbose_name="ФИО механика"
-    )
+    fio = models.CharField(max_length=200, verbose_name="ФИО механика")
 
     def __str__(self) -> str:
         return str(self.fio)
@@ -41,3 +35,41 @@ class MechanicsList(models.Model):
     class Meta:
         verbose_name = "механика"
         verbose_name_plural = "Список механиков"
+
+
+# Список СимКарт
+class SimCard(models.Model):
+    phone_number = models.CharField(
+        max_length=10,
+        null=False,
+        verbose_name="Номер телефона",
+    )
+    ip = models.CharField(max_length=12, verbose_name="IP симкарты")
+    operator_name = models.CharField(
+        null=False,
+        verbose_name="Наименование оператора")
+
+    def __str__(self) -> str:
+        return str(self.ip)
+
+    class Meta:
+        verbose_name = "симку"
+        verbose_name_plural = "Список симкарт"
+
+
+# Список механиков
+class Routers(models.Model):
+    name_router = models.CharField(
+        null=False,
+        verbose_name="Название роутера"
+    )
+    emai = models.CharField(
+        verbose_name="Номер роутера"
+    )
+
+    def __str__(self) -> str:
+        return str(self.emai)
+
+    class Meta:
+        verbose_name = "роутер"
+        verbose_name_plural = "Список роутеров"

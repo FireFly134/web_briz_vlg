@@ -33,7 +33,9 @@ class MalfunctionsList(ListView):
         return ModelMalfunctions.objects.all()
 
 
-class MalfunctionsUpdate(UpdateView,):
+class MalfunctionsUpdate(
+    UpdateView,
+):
     model = ModelMalfunctions
     form_class = UpdateModelMalfunctionsForm
     template_name = "malfunctions/edit.html"
@@ -59,22 +61,17 @@ class MalfunctionsCreate(CreateView):
     template_name = "malfunctions/create.html"
     success_url = reverse_lazy("create")
 
-    def form_valid(
-        self,
-        form: CreateMalfunctionsForm
-    ):
+    def form_valid(self, form: CreateMalfunctionsForm):
         report = form.save(commit=False)
         report.save()
         return super().form_valid(form)
 
-    def form_invalid(
-            self,
-            form: CreateMalfunctionsForm
-    ):
+    def form_invalid(self, form: CreateMalfunctionsForm):
         print("что-то не так!")
         # Добавьте здесь необходимые действия для обработки невалидной формы
         errors = form.errors.as_data()
         print(errors)
         # Теперь переменная errors содержит информацию о том, почему форма невалидна
         return self.render_to_response(
-            self.get_context_data(form=form, errors=errors))
+            self.get_context_data(form=form, errors=errors)
+        )

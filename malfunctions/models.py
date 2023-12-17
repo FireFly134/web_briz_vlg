@@ -10,9 +10,7 @@ from main.models import (
 
 # Заявки
 class ModelMalfunctions(models.Model):
-    address = models.ForeignKey(
-        AddressList, on_delete=models.CASCADE
-    )
+    address = models.ForeignKey(AddressList, on_delete=models.CASCADE)
     num_house = models.CharField(
         verbose_name="Номер дома",
         default="-",
@@ -23,17 +21,16 @@ class ModelMalfunctions(models.Model):
     flat_or_tel = models.CharField(
         verbose_name="Номер квартины или телефона",
     )
-    dispatcher = models.ForeignKey(
-        DispatcherList, on_delete=models.CASCADE
-    )
+    dispatcher = models.ForeignKey(DispatcherList, on_delete=models.CASCADE)
     date_time_accepted = models.DateTimeField(
         verbose_name="Дата приема заявки",
         default=now(),
     )
     mechanics = models.ForeignKey(
-        MechanicsList, on_delete=models.CASCADE,
-        related_name='mechanics',
-        default=None
+        MechanicsList,
+        on_delete=models.CASCADE,
+        related_name="mechanics",
+        default=None,
     )
     date_time_closed = models.DateTimeField(
         verbose_name="Дата закрытия заявки",
@@ -48,9 +45,10 @@ class ModelMalfunctions(models.Model):
         default=False,
     )
     executor_mechanics = models.ForeignKey(
-        MechanicsList, on_delete=models.CASCADE,
-        related_name='executor_mechanics',
-        default=None
+        MechanicsList,
+        on_delete=models.CASCADE,
+        related_name="executor_mechanics",
+        default=None,
     )
     description = models.CharField(
         verbose_name="Примечания",

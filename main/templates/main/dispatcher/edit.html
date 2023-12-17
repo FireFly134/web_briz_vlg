@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+{% block title %}Редактирование диспетчера{% endblock %}
+{% block style %}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">{% endblock %}
+{% block body %}
+<div class="container mt-4">
+        <h2 class="mb-4">Редактирование диспетчера</h2>
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ form.fio.label_tag }}
+                {{ form.fio }}
+            </div>
+
+            <div class="row">
+                <div class="col-1">
+                    <button type="submit" class="btn btn-primary mt-3" value="Create">Сохранить</button>
+                </div>
+                <div class="col-1">
+                    <a href="{% url 'dispatcher_list' %}" class="btn btn-secondary mt-3">Назад</a>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Удалить
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Удаление</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Вы уверены, что хотите удалить заявку?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                            <a href="{% url 'dispatcher_delete' info.id %}" class="btn btn-danger">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}
