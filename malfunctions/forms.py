@@ -17,7 +17,7 @@ labels_dict: dict[str, str] = {
     "transfer_of_the_application": "Передача по смене",
     "executor_mechanics": "ФИО исполнителя",
     "description": "Примечания",
-    "status": "Статус заявки"
+    "status": "Статус заявки",
 }
 
 
@@ -25,17 +25,20 @@ class CreateMalfunctionsForm(forms.ModelForm):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         for field in self.visible_fields():
-            if (field.name != "transfer_of_the_application"
-                    and field.name != "status"
-                    and "class" not in field.field.widget.attrs):
-                if (field.name != "address"
-                        and field.name != "dispatcher"
-                        and field.name != "executor_mechanics"
-                        and field.name != "mechanics"):
+            if (
+                field.name != "transfer_of_the_application"
+                and field.name != "status"
+                and "class" not in field.field.widget.attrs
+            ):
+                if (
+                    field.name != "address"
+                    and field.name != "dispatcher"
+                    and field.name != "executor_mechanics"
+                    and field.name != "mechanics"
+                ):
                     field.field.widget.attrs["class"] = "form-control"
                 else:
-                    field.field.widget.attrs[
-                        "class"] = "form-control select2"
+                    field.field.widget.attrs["class"] = "form-control select2"
                 field.field.required = False
 
     class Meta:
@@ -43,17 +46,16 @@ class CreateMalfunctionsForm(forms.ModelForm):
         fields = labels_dict.keys()
         labels = labels_dict
         widgets = {
-            'date_time_accepted': forms.DateTimeInput(
-                attrs={'type': 'datetime-local'},
-                format='%Y-%m-%dT%H:%M'),
-            'date_time_closed': forms.DateTimeInput(
-                attrs={'type': 'datetime-local'}
+            "date_time_accepted": forms.DateTimeInput(
+                attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"
             ),
-            'malfunction_and_cause': forms.Textarea(
-                attrs={'rows': 5, 'cols': 40}
+            "date_time_closed": forms.DateTimeInput(
+                attrs={"type": "datetime-local"}
             ),
-            'description': forms.Textarea(attrs={'rows': 10, 'cols': 40}),
-
+            "malfunction_and_cause": forms.Textarea(
+                attrs={"rows": 5, "cols": 40}
+            ),
+            "description": forms.Textarea(attrs={"rows": 10, "cols": 40}),
         }
 
 

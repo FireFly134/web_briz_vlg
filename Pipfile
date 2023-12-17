@@ -17,6 +17,9 @@ xlrd = "==2.0.1"
 python-docx = "*"
 xlsxwriter = "*"
 django-stubs-ext = "*"
+black = "*"
+flake8 = "*"
+mypy = "*"
 
 [dev-packages]
 black = "*"
