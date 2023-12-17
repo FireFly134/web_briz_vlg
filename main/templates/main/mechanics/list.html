@@ -13,7 +13,7 @@
 <br>
 <div class="d-flex justify-content-between align-items-center" style="margin-left: 25px; margin-right: 25px;">
 	<div class="btn-group" role="group" aria-label="Первая группа">
-		<a href="{% url 'create' %}" class="btn btn-success mt-3" id="btn-group-4">Добавить механика</a>
+		<a href="{% url 'new_mechanics' %}" class="btn btn-success mt-3" id="btn-group-4">Добавить механика</a>
 	</div>
 </div>
 <div style="margin-left: 25px; margin-right: 25px;">
@@ -37,7 +37,7 @@
 	//
 	function addTableRow(id, fio) {
 		const edit_url = `/edit_mechanics/${id}`
-		const delete_url = `/delete_mechanics/${id}`
+		const delete_url = `/mechanics_delete/${id}`
 		const newRow = tbody.insertRow();
 		const cell1 = newRow.insertCell(0);
 		const cell2 = newRow.insertCell(1);

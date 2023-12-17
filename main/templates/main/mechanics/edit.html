@@ -1,15 +1,15 @@
 {% extends 'main/base.html' %}
-{% block title %}Редактирование улицы{% endblock %}
+{% block title %}Редактирование механика{% endblock %}
 {% block style %}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">{% endblock %}
 {% block body %}
 <div class="container mt-4">
-        <h2 class="mb-4">Редактирование улицы</h2>
+        <h2 class="mb-4">Редактирование механика</h2>
         <form method="post">
             {% csrf_token %}
 
             <div class="form-group">
-                {{ form.address.label_tag }}
-                {{ form.address }}
+                {{ form.fio.label_tag }}
+                {{ form.fio }}
             </div>
 
             <div class="row">
@@ -17,7 +17,7 @@
                     <button type="submit" class="btn btn-primary mt-3" value="Create">Сохранить</button>
                 </div>
                 <div class="col-1">
-                    <a href="{% url 'list' %}" class="btn btn-secondary mt-3">Назад</a>
+                    <a href="{% url 'mechanics_list' %}" class="btn btn-secondary mt-3">Назад</a>
                 </div>
                 <div class="col-1">
                     <button type="button" class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -38,7 +38,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                            <a href="{% url 'delete' info.id %}" class="btn btn-danger">Удалить</a>
+                            <a href="{% url 'mechanics_delete' info.id %}" class="btn btn-danger">Удалить</a>
                         </div>
                     </div>
                 </div>

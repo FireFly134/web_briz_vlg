@@ -1,23 +1,23 @@
 {% extends 'main/base.html' %}
-{% block title %}Создание улицы{% endblock %}
+{% block title %}Добавление диспетчера{% endblock %}
 
 {% block body %}
 <div class="container mt-4">
-        <h2 class="mb-4">Создание улицы</h2>
+        <h2 class="mb-4">Добавление диспетчера</h2>
         <form method="post">
             {% csrf_token %}
 
             <div class="form-group">
-                {{ form.address.label_tag }}
-                {{ form.address }}
+                {{ form.fio.label_tag }}
+                {{ form.fio }}
             </div>
 
             <div class="row">
                 <div class="col-1">
-                    <button type="submit" class="btn btn-primary mt-3" value="Create">Создать</button>
+                    <button type="submit" class="btn btn-primary mt-3" value="Create">Сохранить</button>
                 </div>
                 <div class="col-1">
-                    <a href="{% url 'list' %}" class="btn btn-secondary mt-3">Назад</a>
+                    <a href="{% url 'dispatcher_list' %}" class="btn btn-secondary mt-3">Назад</a>
                 </div>
             </div>
         </form>
