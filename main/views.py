@@ -203,7 +203,7 @@ class AddressCreate(PatternCreate):
 
 
 class DispatcherCreate(PatternCreate):
-    form_class = DispatcherList
+    form_class = DispatcherListForm
     model = DispatcherList
     template_name = "main/dispatcher/create.html"
     success_url = reverse_lazy("new_dispatcher")
