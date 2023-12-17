@@ -38,8 +38,8 @@
 	let rowCounter = 1; // Счетчик номера п/п
 	//
 	function addTableRow(id, phone_number, ip, operator_name) {
-		const edit_url = `/edit_address/${id}`
-		const delete_url = `/delete_address/${id}`
+		const edit_url = `/edit_simcard/${id}`
+		const delete_url = `/delete_simcard/${id}`
 		const newRow = tbody.insertRow();
 		const cell1 = newRow.insertCell(0);
 		const cell2 = newRow.insertCell(1);

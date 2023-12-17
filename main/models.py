@@ -64,7 +64,7 @@ class Routers(models.Model):
         verbose_name="Название роутера"
     )
     emai = models.CharField(
-        verbose_name="номер роутера"
+        verbose_name="Номер роутера"
     )
 
     def __str__(self) -> str:

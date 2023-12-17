@@ -13,7 +13,7 @@
 <br>
 <div class="d-flex justify-content-between align-items-center" style="margin-left: 25px; margin-right: 25px;">
 	<div class="btn-group" role="group" aria-label="Первая группа">
-		<a href="{% url 'create' %}" class="btn btn-success mt-3" id="btn-group-4">Добавить роутер</a>
+		<a href="{% url 'new_routers' %}" class="btn btn-success mt-3" id="btn-group-4">Добавить роутер</a>
 	</div>
 </div>
 <div style="margin-left: 25px; margin-right: 25px;">
@@ -24,7 +24,8 @@
 	<thead style="position: sticky;top: 0">
 		<tr>
 			<td class="doc_table" scope="col" id="N" data-column="N" style="background: #ebebeb;text-align:center; width:50px">№ п/п</td>
-			<td class="doc_table" scope="col" id="address" data-column="address" style="background: #ebebeb;text-align:center;">Улица</td>
+			<td class="doc_table" scope="col" id="name_router" data-column="name_router" style="background: #ebebeb;text-align:center;">Название роутера</td>
+			<td class="doc_table" scope="col" id="emai" data-column="emai" style="background: #ebebeb;text-align:center;">Номер роутера</td>
 			<td class="doc_table" scope="col" id="move" style="background: #ebebeb;text-align:center; width:100px">Действия</td>
 		</tr>
 	</thead>
@@ -35,16 +36,18 @@
 <script>
 	let rowCounter = 1; // Счетчик номера п/п
 	//
-	function addTableRow(id, address) {
-		const edit_url = `/edit_address/${id}`
-		const delete_url = `/delete_address/${id}`
+	function addTableRow(id, name_router, emai) {
+		const edit_url = `/edit_routers/${id}`
+		const delete_url = `/routers_delete/${id}`
 		const newRow = tbody.insertRow();
 		const cell1 = newRow.insertCell(0);
 		const cell2 = newRow.insertCell(1);
 		const cell3 = newRow.insertCell(2);
+		const cell4 = newRow.insertCell(3);
 
 		cell1.textContent = rowCounter++;
-		cell2.textContent = address;
+		cell2.textContent = name_router;
+		cell3.textContent = emai;
 
 
 		// Создаем ссылку для редактирования
@@ -74,8 +77,8 @@
 		deleteLink.appendChild(deleteIcon);
 
 		// Добавляем ссылки в ячейку
-		cell3.appendChild(editLink);
-		cell3.appendChild(deleteLink);
+		cell4.appendChild(editLink);
+		cell4.appendChild(deleteLink);
 	}
 
 	//Фильтр по значениям в таблице открыт договор и строительная готовность, работает через кнопки
@@ -116,7 +119,7 @@
 	document.addEventListener("DOMContentLoaded", function () {
 		let tbody = document.getElementById('tbody');
 		{% for item in list %}
-			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`);
+			addTableRow(`{{ item.id|safe }}`, `{{ item.name_router|safe }}`, `{{ item.emai|safe }}`);
 		{% endfor %}
 	});
 </script>
