@@ -1,10 +1,5 @@
-import datetime
-import json
-import os
-from typing import Any, Type
+from typing import Type
 
-from django import forms
-from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -19,8 +14,6 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
-
-from django_stubs_ext import QuerySetAny
 
 from .forms import (
     UserLoginForms,
@@ -75,6 +68,7 @@ def user_logout(
 
 class PatternShowList(ListView):
     context_object_name: str = "list"
+
     def get_queryset(self):
         return self.model.objects.all()
 
@@ -111,10 +105,12 @@ class PatternCreate(CreateView):
         # Добавьте здесь необходимые действия для обработки невалидной формы
         errors = form.errors.as_data()
         print(errors)
-        # Теперь переменная errors содержит информацию о том, почему форма невалидна
+        # Теперь переменная errors содержит информацию о том,
+        # почему форма невалидна
         return self.render_to_response(
             self.get_context_data(form=form, errors=errors)
         )
+
 
 ##############################################################################
 ##############################################################################
@@ -190,6 +186,7 @@ class SimCardUpdate(PatternUpdate):
     template_name = "main/simcard/list.html"
     success_url = reverse_lazy("simcard_list")
 
+
 ##############################################################################
 ##############################################################################
 ##############################################################################
@@ -233,6 +230,7 @@ class SimCardCreate(PatternCreate):
 ##############################################################################
 ##############################################################################
 ##############################################################################
+
 
 @login_required
 def address_delete(

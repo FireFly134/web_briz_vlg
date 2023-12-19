@@ -1,0 +1,7 @@
+FROM stackrox/kube-linter:main-alpine as kube-linter
+FROM ghcr.io/helmfile/helmfile:v0.157.0
+COPY --from=kube-linter /kube-linter /usr/local/bin/kube-linter
+RUN helmfile init --force
+WORKDIR /usr/local/app/
+COPY shared/helm/ ./
+ENTRYPOINT []

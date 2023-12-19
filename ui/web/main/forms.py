@@ -14,8 +14,8 @@ from .models import (
 simcard_list: dict[str, str] = {
     "phone_number": "Номер телефона",
     "ip": "Статический IP симкарты",
-    "operator_name": "Оператор"
-                                }
+    "operator_name": "Оператор",
+}
 routers_list: dict[str, str] = {
     "name_router": "Название роутера",
     "emai": "EMAI номер роутера",

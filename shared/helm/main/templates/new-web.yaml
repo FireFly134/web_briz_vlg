@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: new-web
+spec:
+  selector:
+    app.name: ivea-nuxt
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: new-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.name: ivea-nuxt
+  template:
+    metadata:
+      labels:
+        app.name: ivea-nuxt
+      annotations:
+        lastDeployedDate: "{{ now | unixEpoch }}"
+    spec:
+      imagePullSecrets:
+      - name: gitlab-registry-credentials
+      containers:
+      - name: main
+        imagePullPolicy: Always
+        image: {{ .Values.images.new_web }}
+        command: ['yarn', 'start']
