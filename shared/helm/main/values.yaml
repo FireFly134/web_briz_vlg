@@ -1,3 +1,0 @@
-images:
-  admin: registry.gitlab.com/ivea-water/ivea/web:main
-  new_web: registry.gitlab.com/ivea-water/ivea/new-web:main
