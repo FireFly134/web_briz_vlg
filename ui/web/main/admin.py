@@ -31,17 +31,32 @@ class MechanicsListAdmin(admin.ModelAdmin):
 
 
 class RoutersAdmin(admin.ModelAdmin):
-    list_display = ("emai", "name_router",)
+    list_display = (
+        "emai",
+        "name_router",
+    )
     list_display_links = ("emai",)
     search_fields = ("emai",)
     filter = ("emai",)
 
 
 class SimCardAdmin(admin.ModelAdmin):
-    list_display = ("phone_number", "ip", "operator_name",)
+    list_display = (
+        "phone_number",
+        "ip",
+        "operator_name",
+    )
     list_display_links = ("phone_number",)
-    search_fields = ("phone_number", "ip", "operator_name",)
-    filter = ("phone_number", "ip", "operator_name",)
+    search_fields = (
+        "phone_number",
+        "ip",
+        "operator_name",
+    )
+    filter = (
+        "phone_number",
+        "ip",
+        "operator_name",
+    )
 
 
 admin.site.register(AddressList, AddressListAdmin)

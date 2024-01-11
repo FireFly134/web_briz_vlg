@@ -1,6 +1,3 @@
-import os
-from typing import Any, Dict
-
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import (
@@ -71,7 +68,8 @@ class MalfunctionsCreate(CreateView):
         # Добавьте здесь необходимые действия для обработки невалидной формы
         errors = form.errors.as_data()
         print(errors)
-        # Теперь переменная errors содержит информацию о том, почему форма невалидна
+        # Теперь переменная errors содержит информацию о том,
+        # почему форма невалидна
         return self.render_to_response(
             self.get_context_data(form=form, errors=errors)
         )

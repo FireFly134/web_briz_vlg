@@ -32,6 +32,7 @@
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;"></td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:300px;">Заявка принята</td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка принята</td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка принята</td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка передана</td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка передана</td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;"></td>
@@ -47,6 +48,7 @@
 			<td class="doc_table" scope="col" id="entrance" data-column="entrance" style="background: #ebebeb;text-align:center;">Подъезд</td>
 			<td class="doc_table" scope="col" id="flat_or_tel" data-column="flat_or_tel" style="background: #ebebeb;text-align:center; width:300px;">Номер квартины или телефона</td>
 			<td class="doc_table" scope="col" id="date_time_accepted" data-column="date_time_accepted" style="background: #ebebeb;text-align:center;">Дата и время приема заявки</td>
+			<td class="doc_table" scope="col" id="dispatcher" data-column="dispatcher" style="background: #ebebeb;text-align:center;">ФИО диспетчера</td>
 			<td class="doc_table" scope="col" id="mechanics" data-column="mechanics" style="background: #ebebeb;text-align:center;">ФИО механика</td>
 			<td class="doc_table" scope="col" id="date_time_closed" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Дата и время закрытия заявки</td>
 			<td class="doc_table" scope="col" id="malfunction_and_cause" data-column="malfunction_and_cause" style="background: #ebebeb;text-align:center;">Неисправность и причина заявки</td>
@@ -63,7 +65,17 @@
 <script>
 	let rowCounter = 1; // Счетчик номера п/п
 	//
-	function addTableRow(id, address, num_house, entrance, flat_or_tel, date_time_accepted, mechanics, date_time_closed, malfunction_and_cause, transfer_of_the_application, description, status) {
+	function formatDate(date) {
+    const options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };
+    return new Intl.DateTimeFormat('ru-RU', options).format(date);
+}
+	function addTableRow(id, address, num_house, entrance, flat_or_tel, date_time_accepted, dispatcher, mechanics, date_time_closed, malfunction_and_cause, transfer_of_the_application, description, status) {
+		// Форматирование даты date_time_accepted
+		const formattedDateAccepted = date_time_accepted !== 'None' ? formatDate(new Date(date_time_accepted)) : '';
+
+		// Проверка и форматирование даты date_time_closed
+		const formattedDateClosed = date_time_closed !== 'None' ? formatDate(new Date(date_time_closed)) : '';
+
 		const edit_url = `/malfunctions/edit/${id}`
 		const delete_url = `/malfunctions/delete/${id}`
 		const newRow = tbody.insertRow();
@@ -80,20 +92,22 @@
 		const cell11 = newRow.insertCell(10);
 		const cell12 = newRow.insertCell(11);
 		const cell13 = newRow.insertCell(12);
+		const cell14 = newRow.insertCell(13);
 
 		cell1.textContent = rowCounter++;
 		cell2.textContent = address;
 		cell3.textContent = num_house;
 		cell4.textContent = entrance;
 		cell5.textContent = flat_or_tel;
-		cell6.textContent = date_time_accepted;
-		cell7.textContent = mechanics;
-		cell8.textContent = date_time_closed;
-		cell9.textContent = malfunction_and_cause;
-		cell10.textContent = transfer_of_the_application;
-		cell11.textContent = description;
-		cell13.textContent = status;
-		cell13.style.display = "none";
+		cell6.textContent = formattedDateAccepted;
+		cell7.textContent = dispatcher;
+		cell8.textContent = mechanics;
+		cell9.textContent = formattedDateClosed;
+		cell10.textContent = malfunction_and_cause !== 'None' ? malfunction_and_cause : '';
+		cell11.textContent = transfer_of_the_application === 'True' ? 'Передано по смене' : '';
+		cell12.textContent = description !== 'None' ? description : '';
+		cell14.textContent = status;
+		cell14.style.display = "none";
 
 
 		// Создаем ссылку для редактирования
@@ -123,8 +137,8 @@
 		deleteLink.appendChild(deleteIcon);
 
 		// Добавляем ссылки в ячейку
-		cell12.appendChild(editLink);
-		cell12.appendChild(deleteLink);
+		cell13.appendChild(editLink);
+<!--		cell13.appendChild(deleteLink);-->
 	}
 
 	//Фильтр по значениям в таблице открыт договор и строительная готовность, работает через кнопки
@@ -166,7 +180,7 @@
 		let tbody = document.getElementById('tbody');
 
 		{% for item in list %}
-			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.num_house|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.mechanics|safe }}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.transfer_of_the_application|safe }}`, `{{ item.description|safe }}`, `{{ item.status|safe }}`);
+			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.num_house|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.dispatcher|safe }}`, `{% for mechanic in item.mechanics.all %}{{ mechanic.fio|safe }}{% if not forloop.last %}\n{% endif %}{% endfor %}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.transfer_of_the_application|safe }}`, `{{ item.description|safe }}`, `{{ item.status|safe }}`);
 		{% endfor %}
 	});
 </script>

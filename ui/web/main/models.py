@@ -46,8 +46,8 @@ class SimCard(models.Model):
     )
     ip = models.CharField(max_length=12, verbose_name="IP симкарты")
     operator_name = models.CharField(
-        null=False,
-        verbose_name="Наименование оператора")
+        null=False, verbose_name="Наименование оператора"
+    )
 
     def __str__(self) -> str:
         return str(self.ip)
@@ -59,13 +59,8 @@ class SimCard(models.Model):
 
 # Список механиков
 class Routers(models.Model):
-    name_router = models.CharField(
-        null=False,
-        verbose_name="Название роутера"
-    )
-    emai = models.CharField(
-        verbose_name="Номер роутера"
-    )
+    name_router = models.CharField(null=False, verbose_name="Название роутера")
+    emai = models.CharField(verbose_name="Номер роутера")
 
     def __str__(self) -> str:
         return str(self.emai)
