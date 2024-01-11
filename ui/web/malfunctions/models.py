@@ -26,9 +26,8 @@ class ModelMalfunctions(models.Model):
         verbose_name="Дата приема заявки",
         default=now(),
     )
-    mechanics = models.ForeignKey(
+    mechanics = models.ManyToManyField(
         MechanicsList,
-        on_delete=models.CASCADE,
         related_name="mechanics",
         default=None,
     )
@@ -44,9 +43,8 @@ class ModelMalfunctions(models.Model):
         verbose_name="Передача по смене",
         default=False,
     )
-    executor_mechanics = models.ForeignKey(
+    executor_mechanics = models.ManyToManyField(
         MechanicsList,
-        on_delete=models.CASCADE,
         related_name="executor_mechanics",
         default=None,
     )
