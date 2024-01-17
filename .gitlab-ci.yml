@@ -21,7 +21,7 @@ variables:
   CI_REGISTRY_USER: $CI_REGISTRY_USER
   CI_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
   CI_REGISTRY: $CI_REGISTRY
-  WEB_IMAGE_TAG: $CI_IMAGE_BASE/web:$CI_COMMIT_REF_SLUG
+  WEB_IMAGE_TAG: $CI_IMAGE_BASE/web:main
 
 stages:          # List of stages for jobs, and their order of execution
   - build
