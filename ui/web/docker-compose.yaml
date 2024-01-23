@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    env_file:
+      - .env.development
+    volumes:
+        - postgresql-data:/var/lib/postgresql/data
+    ports:
+        - "5435:5432"
+  app:
+    build: .
+    container_name: django
+    ports:
+      - "80:8000"
+    env_file:
+      - .env.development
+    entrypoint: /code/entrypoint.sh
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - cache
+    tty: true
+    stdin_open: true
+
+volumes:
+    cache:
+      driver: local
+    postgresql-data:
