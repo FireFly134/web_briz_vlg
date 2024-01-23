@@ -10,7 +10,7 @@ services:
         - postgresql-data:/var/lib/postgresql/data
     ports:
         - "5435:5432"
-  app:
+  app-web:
     build: .
     container_name: django
     ports:
