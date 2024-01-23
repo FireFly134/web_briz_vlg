@@ -10,7 +10,7 @@ services:
         - postgresql-data:/var/lib/postgresql/data
     ports:
         - "5435:5432"
-  app-web:
+  app:
     build: .
     container_name: django
     ports:
@@ -22,7 +22,6 @@ services:
       - .:/code
     depends_on:
       - db
-      - cache
     tty: true
     stdin_open: true
 
