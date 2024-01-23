@@ -16,12 +16,12 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
 
 from .forms import (
-    UserLoginForms,
     AddressListForm,
     DispatcherListForm,
     MechanicsListForm,
     RoutersForm,
     SimCardForm,
+    UserLoginForms,
 )
 from .models import (
     AddressList,
