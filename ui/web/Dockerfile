@@ -12,4 +12,4 @@ COPY Pipfile.lock /code/
 RUN pipenv install --system --dev --deploy
 
 COPY . /code/
-RUN chmod u+x entrypoint.sh
+RUN chmod u+x /code/entrypoint.sh
