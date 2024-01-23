@@ -40,11 +40,11 @@ class MechanicsList(models.Model):
 # Список СимКарт
 class SimCard(models.Model):
     phone_number = models.CharField(
-        max_length=10,
+        max_length=12,
         null=False,
         verbose_name="Номер телефона",
     )
-    ip = models.CharField(max_length=12, verbose_name="IP симкарты")
+    ip = models.CharField(max_length=15, verbose_name="IP симкарты")
     operator_name = models.CharField(
         null=False, verbose_name="Наименование оператора"
     )
@@ -61,6 +61,7 @@ class SimCard(models.Model):
 class Routers(models.Model):
     name_router = models.CharField(null=False, verbose_name="Название роутера")
     emai = models.CharField(verbose_name="Номер роутера")
+    info_install = models.CharField(verbose_name="Доп. информация", default="")
 
     def __str__(self) -> str:
         return str(self.emai)
