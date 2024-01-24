@@ -26,6 +26,7 @@
 			<td class="doc_table" scope="col" id="N" data-column="N" style="background: #ebebeb;text-align:center; width:50px">№ п/п</td>
 			<td class="doc_table" scope="col" id="name_router" data-column="name_router" style="background: #ebebeb;text-align:center;">Название роутера</td>
 			<td class="doc_table" scope="col" id="emai" data-column="emai" style="background: #ebebeb;text-align:center;">Номер роутера</td>
+			<td class="doc_table" scope="col" id="info_install" data-column="info_install" style="background: #ebebeb;text-align:center;">Доп. информация</td>
 			<td class="doc_table" scope="col" id="move" style="background: #ebebeb;text-align:center; width:100px">Действия</td>
 		</tr>
 	</thead>
@@ -36,7 +37,7 @@
 <script>
 	let rowCounter = 1; // Счетчик номера п/п
 	//
-	function addTableRow(id, name_router, emai) {
+	function addTableRow(id, name_router, emai, info_install) {
 		const edit_url = `/edit_routers/${id}`
 		const delete_url = `/routers_delete/${id}`
 		const newRow = tbody.insertRow();
@@ -44,10 +45,12 @@
 		const cell2 = newRow.insertCell(1);
 		const cell3 = newRow.insertCell(2);
 		const cell4 = newRow.insertCell(3);
+		const cell5 = newRow.insertCell(4);
 
 		cell1.textContent = rowCounter++;
 		cell2.textContent = name_router;
 		cell3.textContent = emai;
+		cell4.textContent = info_install;
 
 
 		// Создаем ссылку для редактирования
@@ -119,7 +122,7 @@
 	document.addEventListener("DOMContentLoaded", function () {
 		let tbody = document.getElementById('tbody');
 		{% for item in list %}
-			addTableRow(`{{ item.id|safe }}`, `{{ item.name_router|safe }}`, `{{ item.emai|safe }}`);
+			addTableRow(`{{ item.id|safe }}`, `{{ item.name_router|safe }}`, `{{ item.emai|safe }}`, `{{ item.info_install|safe }}`);
 		{% endfor %}
 	});
 </script>
