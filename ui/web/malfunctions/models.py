@@ -31,13 +31,22 @@ class ModelMalfunctions(models.Model):
         related_name="mechanics",
         default=None,
     )
-    date_time_closed = models.DateTimeField(
-        verbose_name="Дата закрытия заявки",
+    date_time_transfer = models.DateTimeField(
+        verbose_name="Дата передачи заявки механикам",
         null=True,
     )
     malfunction_and_cause = models.CharField(
         verbose_name="Неисправность и причина заявки",
         null=True,
+    )
+    date_time_closed = models.DateTimeField(
+        verbose_name="Дата закрытия заявки",
+        null=True,
+    )
+    simple = models.CharField(
+        verbose_name="Простой",
+        null=True,
+        default=""
     )
     transfer_of_the_application = models.BooleanField(
         verbose_name="Передача по смене",
