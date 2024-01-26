@@ -56,7 +56,7 @@ class MalfunctionsCreate(CreateView):
     model = ModelMalfunctions
     form_class = CreateMalfunctionsForm
     template_name = "malfunctions/create.html"
-    success_url = reverse_lazy("create")
+    success_url = reverse_lazy("list")
 
     def form_valid(self, form: CreateMalfunctionsForm):
         report = form.save(commit=False)
