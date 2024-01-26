@@ -54,6 +54,9 @@ class CreateMalfunctionsForm(forms.ModelForm):
             "date_time_closed": forms.DateTimeInput(
                 attrs={"type": "datetime-local"}
             ),
+            "date_time_transfer": forms.DateTimeInput(
+                attrs={"type": "datetime-local"}
+            ),
             "malfunction_and_cause": forms.Textarea(
                 attrs={"rows": 5, "cols": 40}
             ),

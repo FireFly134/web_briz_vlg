@@ -37,6 +37,8 @@
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка передана</td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Статус заявки</td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Статус заявки</td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Статус заявки</td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Статус заявки</td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;"></td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:100px"></td>
 			<td class="doc_table" scope="col" style="display: none"></td>
@@ -47,10 +49,12 @@
 			<td class="doc_table" scope="col" id="num_house" data-column="num_house" style="background: #ebebeb;text-align:center; width:50px;">Номер дома</td>
 			<td class="doc_table" scope="col" id="entrance" data-column="entrance" style="background: #ebebeb;text-align:center;">Подъезд</td>
 			<td class="doc_table" scope="col" id="flat_or_tel" data-column="flat_or_tel" style="background: #ebebeb;text-align:center; width:300px;">Номер квартины или телефона</td>
-			<td class="doc_table" scope="col" id="date_time_accepted" data-column="date_time_accepted" style="background: #ebebeb;text-align:center;">Дата и время приема заявки</td>
 			<td class="doc_table" scope="col" id="dispatcher" data-column="dispatcher" style="background: #ebebeb;text-align:center;">ФИО диспетчера</td>
+						<td class="doc_table" scope="col" id="date_time_accepted" data-column="date_time_accepted" style="background: #ebebeb;text-align:center;">Дата и время приема заявки</td>
 			<td class="doc_table" scope="col" id="mechanics" data-column="mechanics" style="background: #ebebeb;text-align:center;">ФИО механика</td>
+						<td class="doc_table" scope="col" id="date_time_transfer" data-column="date_time_accepted" style="background: #ebebeb;text-align:center;">Дата и время передачи заявки</td>
 			<td class="doc_table" scope="col" id="date_time_closed" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Дата и время закрытия заявки</td>
+			<td class="doc_table" scope="col" id="simple" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Простой</td>
 			<td class="doc_table" scope="col" id="malfunction_and_cause" data-column="malfunction_and_cause" style="background: #ebebeb;text-align:center;">Неисправность и причина заявки</td>
 			<td class="doc_table" scope="col" id="transfer_of_the_application" data-column="transfer_of_the_application" style="background: #ebebeb;text-align:center;">Передача по смене</td>
 			<td class="doc_table" scope="col" id="description" data-column="description" style="background: #ebebeb;text-align:center;">Примечания</td>
@@ -69,9 +73,12 @@
     const options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };
     return new Intl.DateTimeFormat('ru-RU', options).format(date);
 }
-	function addTableRow(id, address, num_house, entrance, flat_or_tel, date_time_accepted, dispatcher, mechanics, date_time_closed, malfunction_and_cause, transfer_of_the_application, description, status) {
+	function addTableRow(id, address, num_house, entrance, flat_or_tel, date_time_accepted, dispatcher, mechanics, date_time_closed, malfunction_and_cause, transfer_of_the_application, description, status, date_time_transfer, simple) {
 		// Форматирование даты date_time_accepted
 		const formattedDateAccepted = date_time_accepted !== 'None' ? formatDate(new Date(date_time_accepted)) : '';
+
+		// Форматирование даты date_time_transfer
+		const formattedDateTransfer = date_time_transfer !== 'None' ? formatDate(new Date(date_time_transfer)) : '';
 
 		// Проверка и форматирование даты date_time_closed
 		const formattedDateClosed = date_time_closed !== 'None' ? formatDate(new Date(date_time_closed)) : '';
@@ -93,21 +100,25 @@
 		const cell12 = newRow.insertCell(11);
 		const cell13 = newRow.insertCell(12);
 		const cell14 = newRow.insertCell(13);
+		const cell15 = newRow.insertCell(14);
+		const cell16 = newRow.insertCell(15);
 
 		cell1.textContent = rowCounter++;
 		cell2.textContent = address;
 		cell3.textContent = num_house;
 		cell4.textContent = entrance;
 		cell5.textContent = flat_or_tel;
-		cell6.textContent = formattedDateAccepted;
-		cell7.textContent = dispatcher;
+		cell6.textContent = dispatcher;
+		cell7.textContent = formattedDateAccepted;
 		cell8.textContent = mechanics;
-		cell9.textContent = formattedDateClosed;
-		cell10.textContent = malfunction_and_cause !== 'None' ? malfunction_and_cause : '';
-		cell11.textContent = transfer_of_the_application === 'True' ? 'Передано по смене' : '';
-		cell12.textContent = description !== 'None' ? description : '';
-		cell14.textContent = status;
-		cell14.style.display = "none";
+		cell9.textContent = formattedDateTransfer;
+		cell10.textContent = formattedDateClosed;
+		cell11.textContent = simple;
+		cell12.textContent = malfunction_and_cause !== 'None' ? malfunction_and_cause : '';
+		cell13.textContent = transfer_of_the_application === 'True' ? 'Передано по смене' : '';
+		cell14.textContent = description !== 'None' ? description : '';
+		cell16.textContent = status;
+		cell16.style.display = "none";
 
 
 		// Создаем ссылку для редактирования
@@ -137,8 +148,8 @@
 		deleteLink.appendChild(deleteIcon);
 
 		// Добавляем ссылки в ячейку
-		cell13.appendChild(editLink);
-<!--		cell13.appendChild(deleteLink);-->
+		cell15.appendChild(editLink);
+<!--		cell15.appendChild(deleteLink);-->
 	}
 
 	//Фильтр по значениям в таблице открыт договор и строительная готовность, работает через кнопки
@@ -180,7 +191,7 @@
 		let tbody = document.getElementById('tbody');
 
 		{% for item in list %}
-			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.num_house|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.dispatcher|safe }}`, `{% for mechanic in item.mechanics.all %}{{ mechanic.fio|safe }}{% if not forloop.last %}\n{% endif %}{% endfor %}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.transfer_of_the_application|safe }}`, `{{ item.description|safe }}`, `{{ item.status|safe }}`);
+			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.num_house|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.dispatcher|safe }}`, `{% for mechanic in item.mechanics.all %}{{ mechanic.fio|safe }}{% if not forloop.last %}\n{% endif %}{% endfor %}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.transfer_of_the_application|safe }}`, `{{ item.description|safe }}`, `{{ item.status|safe }}`, `{{ item.date_time_transfer|safe }}`, `{{ item.simple|safe }}`);
 		{% endfor %}
 	});
 </script>
