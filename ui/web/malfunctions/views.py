@@ -30,15 +30,25 @@ class MalfunctionsList(ListView):
         return ModelMalfunctions.objects.all()
 
 
-class MalfunctionsUpdate(
-    UpdateView,
-):
+class MalfunctionsUpdate(UpdateView):
     model = ModelMalfunctions
     form_class = UpdateModelMalfunctionsForm
     template_name = "malfunctions/edit.html"
     pk_url_kwarg = "info_id"
     context_object_name = "info"
     success_url = reverse_lazy("list")
+
+    def form_valid(self, form):
+        report = form.save(commit=False)
+
+        # Рассчитываем время простоя, если есть время завершения
+        if report.date_time_closed:
+            downtime = report.date_time_closed - report.date_time_accepted
+            report.simple = int(downtime.total_seconds() / 60)
+
+        report.save()
+
+        return super().form_valid(form)
 
 
 @login_required
@@ -61,6 +71,15 @@ class MalfunctionsCreate(CreateView):
     def form_valid(self, form: CreateMalfunctionsForm):
         report = form.save(commit=False)
         report.save()
+
+        # Рассчитываем время простоя, если есть время завершения
+        if report.date_time_closed:
+            downtime = report.date_time_closed - report.date_time_accepted
+            # downtime_minutes теперь содержит разницу во времени между завершением и началом работ
+            # Можете сохранить значение в минутах или в нужном вам формате
+            report.simple = int(downtime.total_seconds() / 60)
+            report.save()
+
         return super().form_valid(form)
 
     def form_invalid(self, form: CreateMalfunctionsForm):
