@@ -9,7 +9,7 @@ services:
     volumes:
       - postgresql-data:/var/lib/postgresql/data
     ports:
-      - "5435:5432"
+      - "5435:5431"
   app:
     build: .
     container_name: django
