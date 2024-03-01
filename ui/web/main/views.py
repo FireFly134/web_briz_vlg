@@ -106,7 +106,7 @@ class PatternCreate(CreateView):
         errors = form.errors.as_data()
         print(errors)
         # Теперь переменная errors содержит информацию о том,
-        # почему форма невалидна
+        # почему форма невалидна.
         return self.render_to_response(
             self.get_context_data(form=form, errors=errors)
         )
