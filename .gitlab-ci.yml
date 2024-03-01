@@ -54,4 +54,5 @@ docker-deploy:
     - cat ${PROD_ENV} >> ui/web/.env
     - cat ${PROD_ENV} >> .env
     - docker-compose --file ui/web/docker-compose.prod.yaml down || true
+    - docker push "$DOCKER_IMAGE_NAME"
     - docker-compose --file ui/web/docker-compose.prod.yaml up -d
