@@ -49,13 +49,14 @@ docker-deploy:
   tags:
     - docker
   stage: deploy
+  before_script:
+    - apk add --no-cache docker-compose
   only:
     - main
   environment: production
   script:
     - cd ./ui/web/
     - cat ${PROD_ENV} >> .env
-    - docker compose -f docker-compose.prod.yaml down || true
-    - docker push "$DOCKER_IMAGE_NAME"
-    - docker compose -f docker-compose.prod.yaml up -d
+    - docker-compose -f docker-compose.prod.yaml down || true
+    - docker-compose -f docker-compose.prod.yaml up -d
 #    - echo "Deployment completed. Success!!!"
