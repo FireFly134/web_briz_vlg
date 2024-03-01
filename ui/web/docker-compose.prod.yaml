@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.11"
 
 services:
   db:
@@ -17,9 +17,9 @@ services:
       - "8008:8000"
     env_file:
       - .env
-    entrypoint: /code/entrypoint.sh
+    entrypoint: /usr/local/app/entrypoint.sh
     volumes:
-      - .:/code
+      - .:/usr/local/app
     depends_on:
       - db
     tty: true
