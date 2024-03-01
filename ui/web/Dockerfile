@@ -13,4 +13,4 @@ RUN pipenv install --system --dev --deploy
 
 COPY . .
 
-RUN chmod u+x /code/entrypoint.sh
+RUN chmod u+x ./entrypoint.sh
