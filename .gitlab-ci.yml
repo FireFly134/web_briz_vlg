@@ -57,8 +57,7 @@ docker-deploy:
     - echo "Appending production environment variables..."
     - cat ${PROD_ENV} >> .env
     - echo "Stopping existing containers (if any)..."
-    - echo $USER
-    - ls
+    - docker compose --version
 #    - docker-compose --file docker-compose.prod.yaml down || true
 #    - echo "Pushing Docker image to registry..."
 #    - docker push "$DOCKER_IMAGE_NAME"
