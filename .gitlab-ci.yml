@@ -42,7 +42,7 @@ test-job:   # This job also runs in the test stage.
     - docker-build
   script:
     - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
+#    - sleep 10
     - echo "No lint issues found."
 
 docker-deploy:
@@ -54,7 +54,12 @@ docker-deploy:
   environment: production
   script:
     - cd ./ui/web/
+    - echo "Appending production environment variables..."
     - cat ${PROD_ENV} >> .env
-    - docker-compose --file ui/web/docker-compose.prod.yaml down || true
+    - echo "Stopping existing containers (if any)..."
+    - docker-compose --file docker-compose.prod.yaml down || true
+    - echo "Pushing Docker image to registry..."
     - docker push "$DOCKER_IMAGE_NAME"
-    - docker-compose --file ui/web/docker-compose.prod.yaml up -d
+    - echo "Starting containers in production mode..."
+    - docker-compose --file docker-compose.prod.yaml up -d
+    - echo "Deployment completed."
