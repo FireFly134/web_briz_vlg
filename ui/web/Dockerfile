@@ -1,15 +1,16 @@
 FROM python:3.11-alpine
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONFAULTHANDLER=1 \
+     PYTHONUNBUFFERED=1 \
+     PYTHONDONTWRITEBYTECODE=1
 
-WORKDIR /code
+WORKDIR /usr/local/app
 
 RUN pip install pipenv
-COPY Pipfile /code/
-COPY Pipfile.lock /code/
+COPY ./ui/web/Pipfile* ./
 
 RUN pipenv install --system --dev --deploy
 
-COPY . /code/
-RUN chmod u+x /code/entrypoint.sh
+COPY ./ui/web/ .
+
+RUN chmod u+x ./entrypoint.sh
