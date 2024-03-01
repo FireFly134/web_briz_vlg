@@ -54,5 +54,4 @@ docker-deploy:
     - cat ${PROD_ENV} >> ui/web/.env
     - cat ${PROD_ENV} >> .env
     - docker-compose --file ui/web/docker-compose.prod.yaml down || true
-    - docker-compose --file ui/web/docker-compose.prod.yaml pull
     - docker-compose --file ui/web/docker-compose.prod.yaml up -d
