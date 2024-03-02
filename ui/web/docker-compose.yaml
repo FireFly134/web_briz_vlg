@@ -9,17 +9,17 @@ services:
     volumes:
         - postgresql-data:/var/lib/postgresql/data
     ports:
-        - "5435:5432"
+        - "5430:5432"
   app:
     build: .
     container_name: django
     ports:
-      - "80:8000"
+      - "8080:8000"
     env_file:
       - .env
-    entrypoint: /code/entrypoint.sh
+    entrypoint: /usr/local/app/entrypoint.sh
     volumes:
-      - .:/code
+      - .:/usr/local/app
     depends_on:
       - db
     tty: true

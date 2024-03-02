@@ -7,10 +7,10 @@ ENV PYTHONFAULTHANDLER=1 \
 WORKDIR /usr/local/app
 
 RUN pip install pipenv
-COPY ./Pipfile* ./
+COPY ./ui/web/Pipfile* ./
 
 RUN pipenv install --system --dev --deploy
 
-COPY . .
+COPY ./ui/web/ .
 
 RUN chmod u+x ./entrypoint.sh
