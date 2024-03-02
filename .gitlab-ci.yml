@@ -57,8 +57,8 @@ docker-deploy:
     - main
   environment: production
   script:
+    - cd ./ui/web/
     - cat ${PROD_ENV} >> .env
-    - cat ${PROD_ENV} >> ./ui/web/.env
-    - docker-compose -f ./ui/web/docker-compose.yaml down || true
-    - docker-compose -f ./ui/web/docker-compose.yaml up
+    - docker-compose down || true
+    - docker-compose up
 #    - echo "Deployment completed. Success!!!"
