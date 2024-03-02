@@ -1,2 +1,4 @@
 *.swp
 .vscode/settings.json
+.idea
+ui/book.xlsx
