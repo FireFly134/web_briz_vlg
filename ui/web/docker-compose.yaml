@@ -17,9 +17,9 @@ services:
       - "80:8000"
     env_file:
       - .env
-    command: sh -c "ls && cd ./ui/web/ && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/usr/local/app
+    command: sh -c "ls ./ && ls ./ui/web/ && cd ./ui/web/" # && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
     tty: true
