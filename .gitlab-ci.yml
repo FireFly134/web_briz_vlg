@@ -2,7 +2,6 @@ variables:
    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
 before_script:
   - apk add --no-cache docker-compose
-  - docker-compose --version
 
 
 
@@ -58,8 +57,8 @@ docker-deploy:
     - main
   environment: production
   script:
-    - cd ./ui/web/
     - cat ${PROD_ENV} >> .env
-    - docker-compose down || true
-    - docker-compose up
+    - cat ${PROD_ENV} >> ./ui/web/.env
+    - docker-compose -f ./ui/web/docker-compose.yaml down || true
+    - docker-compose -f ./ui/web/docker-compose.yaml up
 #    - echo "Deployment completed. Success!!!"
