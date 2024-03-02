@@ -57,5 +57,5 @@ docker-deploy:
     - cd ./ui/web/
     - cat ${PROD_ENV} >> .env
     - docker compose down || true
-    - docker compose up -d
+    - docker compose up
 #    - echo "Deployment completed. Success!!!"
