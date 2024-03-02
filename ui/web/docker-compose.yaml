@@ -14,7 +14,7 @@ services:
     build: .
     container_name: django
     ports:
-      - "8080:8000"
+      - "8008:8000"
     env_file:
       - .env
     entrypoint: /usr/local/app/entrypoint.sh
