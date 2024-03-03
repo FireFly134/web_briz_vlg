@@ -60,5 +60,5 @@ docker-deploy:
     - cat ${PROD_ENV} >> .env
     - docker-compose -f docker-compose.prod.yaml down || true
     - docker-compose -f docker-compose.prod.yaml pull
-    - docker-compose -f docker-compose.prod.yaml up -d || docker-compose -f docker-compose.prod.yaml up --build -d
+    - docker-compose -f docker-compose.prod.yaml up --build -d
 #    - echo "Deployment completed. Success!!!"
