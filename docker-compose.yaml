@@ -17,7 +17,8 @@ services:
       - "80:8000"
     env_file:
       - .env
-    entrypoint: ./ui/web/entrypoint.sh
+    command: sh -c "ls -la"
+#    entrypoint: ./ui/web/entrypoint.sh
     volumes:
       - .:/usr/local/app/
     depends_on:
