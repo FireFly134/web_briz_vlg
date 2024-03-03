@@ -60,5 +60,5 @@ docker-deploy:
     - cat ${PROD_ENV} >> .env
     - docker-compose down || true
     - docker-compose pull
-    - docker-compose up || docker-compose up --build
+    - docker-compose up -d || docker-compose up --build -d
 #    - echo "Deployment completed. Success!!!"
