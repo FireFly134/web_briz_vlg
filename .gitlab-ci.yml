@@ -36,7 +36,7 @@ docker-build:
   rules:
     - if: $CI_COMMIT_BRANCH
       exists:
-        - ./ui/web/Dockerfile
+        - Dockerfile
 #
 #test-job:   # This job also runs in the test stage.
 #  stage: test    # It can run at the same time as unit-test-job (in parallel).
@@ -59,5 +59,6 @@ docker-deploy:
   script:
     - cat ${PROD_ENV} >> .env
     - docker-compose down || true
+    - docker-compose pull
     - docker-compose up || docker-compose up --build
 #    - echo "Deployment completed. Success!!!"
