@@ -11,6 +11,6 @@ COPY ./ui/web/Pipfile* ./
 
 RUN pipenv install --system --dev --deploy
 
-COPY ./ui/web/ .
+COPY ./ui/web/ ./
 
 RUN chmod u+x ./entrypoint.sh
