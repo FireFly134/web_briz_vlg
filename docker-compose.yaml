@@ -17,8 +17,7 @@ services:
       - "80:8000"
     env_file:
       - .env
-    command: sh -c "cat /usr/local/app/entrypoint.sh && cat /usr/local/app/ui/web/entrypoint.sh"
-    entrypoint: /usr/local/app/entrypoint.sh
+    entrypoint: ./ui/web/entrypoint.sh
     volumes:
       - .:/usr/local/app/
     depends_on:
