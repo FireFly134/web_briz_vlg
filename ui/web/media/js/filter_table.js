@@ -10,12 +10,22 @@ function filterTableButton(status_value="True") {
 
   let button1 = document.getElementById("btn-group-1");
   let button2 = document.getElementById("btn-group-2");
+  let add_archive = document.getElementsByClassName("add_archive");
+  let del_archive = document.getElementsByClassName("del_archive");
   if (status_value === "True"){
         button1.className = 'btn btn-primary mt-3';
         button2.className = 'btn btn-secondary mt-3';
+        for (var i = 0; i < add_archive.length; i++){
+            add_archive[i].style.display = "";
+            del_archive[i].style.display = "none";
+            }
   }else{
         button1.className = 'btn btn-secondary mt-3';
         button2.className = 'btn btn-primary mt-3';
+        for (var i = 0; i < add_archive.length; i++){
+            add_archive[i].style.display = "none";
+            del_archive[i].style.display = "";
+            }
   }
 
   if (index === -1){
