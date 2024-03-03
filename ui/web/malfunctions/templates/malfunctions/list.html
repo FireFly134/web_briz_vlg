@@ -84,7 +84,8 @@
 		const formattedDateClosed = date_time_closed !== 'None' ? formatDate(new Date(date_time_closed)) : '';
 
 		const edit_url = `/malfunctions/edit/${id}`
-		const delete_url = `/malfunctions/delete/${id}`
+		const send_archive_url = `/malfunctions/send_archive/${id}`
+		const send_black_url = `/malfunctions/send_black/${id}`
 		const newRow = tbody.insertRow();
 		const cell1 = newRow.insertCell(0);
 		const cell2 = newRow.insertCell(1);
@@ -134,22 +135,38 @@
 		// Добавляем иконку в ссылку
 		editLink.appendChild(editIcon);
 
-		// Создаем ссылку для удаления
-		const deleteLink = document.createElement("a");
-		deleteLink.href = delete_url;
-		deleteLink.className = "btn btn-link text-danger";
-		deleteLink.title = "Удалить";
+		// Создаем ссылку для переноса в архив
+		const send_archive_link = document.createElement("a");
+		send_archive_link.href = send_archive_url;
+		send_archive_link.className = "btn btn-link";
+		send_archive_link.title = "закрыть и переместить в архив";
 
-		// Создаем иконку для удаления
-		const deleteIcon = document.createElement("i");
-		deleteIcon.className = "fas fa-trash-alt";
+		// Создаем иконку для переноса в архив
+		const send_archive_icon = document.createElement("i");
+		send_archive_icon.className = "fas fa-folder-plus";
+		send_archive_icon.style.display = "";
 
 		// Добавляем иконку в ссылку
-		deleteLink.appendChild(deleteIcon);
+		send_archive_link.appendChild(send_archive_icon);
+
+		// Создаем ссылку для переноса из архива назад
+		const send_black_link = document.createElement("a");
+		send_black_link.href = send_black_url;
+		send_black_link.className = "btn btn-link";
+		send_black_link.title = "открыть и переместить в список";
+
+		// Создаем иконку для переноса в архив
+		const send_black_icon = document.createElement("i");
+		send_black_icon.className = "fas fa-folder-minus";
+		send_black_icon.style.display = "none";
+
+		// Добавляем иконку в ссылку
+		send_black_link.appendChild(send_black_icon);
 
 		// Добавляем ссылки в ячейку
 		cell15.appendChild(editLink);
-<!--		cell15.appendChild(deleteLink);-->
+		cell15.appendChild(send_archive_link);
+		cell15.appendChild(send_black_link);
 	}
 
 	//Фильтр по значениям в таблице открыт договор и строительная готовность, работает через кнопки

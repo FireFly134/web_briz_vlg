@@ -61,6 +61,32 @@ def delete_contact(
         return redirect("list")
     raise PermissionDenied()
 
+@login_required
+def send_archive(
+    request: HttpRequest, info_id: int
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
+    info = ModelMalfunctions.objects.get(pk=info_id)
+    if request.user.is_superuser:
+        # изменяем значение поля status на False
+        info.status = False
+        # сохраняем изменения в базе данных
+        info.save()
+        return redirect("list")
+    raise PermissionDenied()
+
+@login_required
+def send_black(
+    request: HttpRequest, info_id: int
+) -> HttpResponseRedirect | HttpResponsePermanentRedirect:
+    info = ModelMalfunctions.objects.get(pk=info_id)
+    if request.user.is_superuser:
+        # изменяем значение поля status на False
+        info.status = True
+        # сохраняем изменения в базе данных
+        info.save()
+        return redirect("list")
+    raise PermissionDenied()
+
 
 class MalfunctionsCreate(CreateView):
     model = ModelMalfunctions
