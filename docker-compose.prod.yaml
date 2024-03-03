@@ -17,9 +17,12 @@ services:
       - "80:8000"
     env_file:
       - .env
-    command: sh -c "python manage.py migrate && 
-      celery -A web.celery:app worker -B -l info --detach && 
+    command: sh -c "cd ./ui/web/ &&
+      python manage.py migrate &&
+      celery -A web.celery:app worker -B -l info --detach &&
       python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/usr/local/app/
     depends_on:
       - db
     tty: true

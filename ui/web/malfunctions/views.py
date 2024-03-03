@@ -48,7 +48,7 @@ class MalfunctionsUpdate(UpdateView):
             downtime_min = int(downtime_sec.total_seconds() / 60)
             full_hours = int(downtime_min // 60)
             minutes = downtime_min - (full_hours * 60)
-            report.simple = f"{full_hours}ч. {minutes}мин."
+            report.simple = f"{full_hours}ч. {minutes}мин.".strip("0ч. ").strip(" 0мин.")
 
         report.save()
 
