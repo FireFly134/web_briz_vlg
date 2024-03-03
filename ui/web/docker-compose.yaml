@@ -18,7 +18,7 @@ services:
     env_file:
       - .env
     volumes:
-      - .:/usr/local/app
+      - .:/usr/local/app/
     command: sh -c "ls ./ && ls ./ui/web/ && cd ./ui/web/" # && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
