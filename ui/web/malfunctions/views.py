@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import (
@@ -43,8 +44,11 @@ class MalfunctionsUpdate(UpdateView):
 
         # Рассчитываем время простоя, если есть время завершения
         if report.date_time_closed:
-            downtime = report.date_time_closed - report.date_time_accepted
-            report.simple = int(downtime.total_seconds() / 60)
+            downtime_sec = report.date_time_closed - report.date_time_accepted
+            downtime_min = int(downtime_sec.total_seconds() / 60)
+            full_hours = int(downtime_min // 60)
+            minutes = downtime_min - (full_hours * 60)
+            report.simple = f"{full_hours}ч. {minutes}мин."
 
         report.save()
 
@@ -69,6 +73,16 @@ def send_archive(
     if request.user.is_superuser:
         # изменяем значение поля status на False
         info.status = False
+        info.date_time_closed = datetime.now().astimezone(timezone.utc)
+        # Рассчитываем время простоя, если есть время завершения
+        print(info.date_time_closed)
+        print(info.date_time_accepted)
+        downtime_sec = (info.date_time_closed - info.date_time_accepted).total_seconds()
+        print(downtime_sec)
+        downtime_min = int(downtime_sec / 60)
+        full_hours = int(downtime_min // 60)
+        minutes = downtime_min - (full_hours*60)
+        info.simple = f"{full_hours}ч. {minutes}мин.".strip("0ч. ").strip(" 0мин.")
         # сохраняем изменения в базе данных
         info.save()
         return redirect("list")
