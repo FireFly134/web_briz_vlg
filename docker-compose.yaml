@@ -18,7 +18,7 @@ services:
     env_file:
       - .env
     command: sh -c "cat /usr/local/app/entrypoint.sh && cat /usr/local/app/ui/web/entrypoint.sh"
-    entrypoint: entrypoint.sh
+    entrypoint: /usr/local/app/entrypoint.sh
     volumes:
       - .:/usr/local/app/
     depends_on:
