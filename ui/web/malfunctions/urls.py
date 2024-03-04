@@ -20,6 +20,8 @@ urlpatterns = [
         name="edit",
     ),
     path("delete/<int:info_id>", views.delete_contact, name="delete"),
-    path("send_archive/<int:info_id>", views.send_archive, name="send_archive"),
+    path(
+        "send_archive/<int:info_id>", views.send_archive, name="send_archive"
+    ),
     path("send_black/<int:info_id>", views.send_black, name="send_black"),
 ]

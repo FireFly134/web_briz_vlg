@@ -21,14 +21,15 @@ from .models import ModelMalfunctions
 
 
 class MalfunctionsList(ListView):
-    model = ModelMalfunctions
+    model = ModelMalfunctions.objects
     template_name = "malfunctions/list.html"
     context_object_name = "list"
 
     def get_queryset(
         self,
     ) -> QuerySetAny[ModelMalfunctions, ModelMalfunctions]:
-        return ModelMalfunctions.objects.all()
+
+        return ModelMalfunctions.objects.all().order_by('-date_time_accepted')
 
 
 class MalfunctionsUpdate(UpdateView):
@@ -48,7 +49,9 @@ class MalfunctionsUpdate(UpdateView):
             downtime_min = int(downtime_sec.total_seconds() / 60)
             full_hours = int(downtime_min // 60)
             minutes = downtime_min - (full_hours * 60)
-            report.simple = f"{full_hours}ч. {minutes}мин.".strip("0ч. ").strip(" 0мин.")
+            report.simple = f"{full_hours}ч. {minutes}мин.".strip(
+                "0ч. "
+            ).strip(" 0мин.")
 
         report.save()
 
@@ -65,6 +68,7 @@ def delete_contact(
         return redirect("list")
     raise PermissionDenied()
 
+
 @login_required
 def send_archive(
     request: HttpRequest, info_id: int
@@ -75,18 +79,20 @@ def send_archive(
         info.status = False
         info.date_time_closed = datetime.now().astimezone(timezone.utc)
         # Рассчитываем время простоя, если есть время завершения
-        print(info.date_time_closed)
-        print(info.date_time_accepted)
-        downtime_sec = (info.date_time_closed - info.date_time_accepted).total_seconds()
-        print(downtime_sec)
+        downtime_sec = (
+            info.date_time_closed - info.date_time_accepted
+        ).total_seconds()
         downtime_min = int(downtime_sec / 60)
         full_hours = int(downtime_min // 60)
-        minutes = downtime_min - (full_hours*60)
-        info.simple = f"{full_hours}ч. {minutes}мин.".strip("0ч. ").strip(" 0мин.")
+        minutes = downtime_min - (full_hours * 60)
+        info.simple = f"{full_hours}ч. {minutes}мин.".strip("0ч. ").strip(
+            " 0мин."
+        )
         # сохраняем изменения в базе данных
         info.save()
         return redirect("list")
     raise PermissionDenied()
+
 
 @login_required
 def send_black(
