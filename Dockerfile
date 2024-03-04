@@ -12,3 +12,5 @@ COPY ./ui/web/Pipfile* ./
 RUN pipenv install --system --dev --deploy
 
 COPY ./ui/web/ ./
+
+RUN python3 -m black --check --diff --color . && python3 -m flake8 . && python3 -m mypy --color --pretty .
