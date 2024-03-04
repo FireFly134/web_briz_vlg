@@ -31,11 +31,3 @@
 	function handleInput(event) {
 		filterTable(event.target.value);
 	}
-
-	document.addEventListener("DOMContentLoaded", function () {
-		let tbody = document.getElementById('tbody');
-
-		{% for item in list %}
-			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.num_house|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.dispatcher|safe }}`, `{% for mechanic in item.mechanics.all %}{{ mechanic.fio|safe }}{% if not forloop.last %}\n{% endif %}{% endfor %}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.transfer_of_the_application|safe }}`, `{{ item.description|safe }}`, `{{ item.status|safe }}`, `{{ item.date_time_transfer|safe }}`, `{{ item.simple|safe }}`);
-		{% endfor %}
-	});
