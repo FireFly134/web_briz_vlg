@@ -60,8 +60,3 @@ function filterTableButton(status_value="True") {
     }
   }
   };
-
-// выполняется после полной загрузки страницы
-document.addEventListener("DOMContentLoaded", function () {
-    filterTableButton();
-});
