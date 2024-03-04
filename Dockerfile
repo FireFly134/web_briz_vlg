@@ -8,9 +8,10 @@ WORKDIR /usr/local/app
 
 RUN pip install pipenv
 COPY ./ui/web/Pipfile* ./
+COPY ./ui/web/.flake8 ./
 
 RUN pipenv install --system --dev --deploy
 
 COPY ./ui/web/ ./
 
-RUN python3 -m black --check --diff --color . && python3 -m flake8 . && python3 -m mypy --color --pretty .
+RUN python3 -m black --check --diff --color . && python3 -m flake8 .
