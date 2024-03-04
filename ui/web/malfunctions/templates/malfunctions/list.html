@@ -23,25 +23,14 @@
 	<input type="text" id="filterInput" placeholder="Введите значение для фильтрации" oninput="handleInput(event)"  style="width: 500px;">
 	<input type="image" src="/static/admin/img/icon-deletelink.svg" alt="Очистить фильтр" title="Очистить фильтр" onclick="NullFilterTable()" style="width: 20px; height: 20px; margin-top: -10px;">
 </div>
-<table class="table_center_by_css table table-sm table-bordered" border="1" cellpadding="1" cellspacing="1" style="width:98%" id="Table">
+<table class="table_center_by_css table table-sm table-bordered" border="1" cellpadding="1" cellspacing="1" id="Table">
 	<thead style="position: sticky;top: 0">
 		<tr>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:50px"></td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:300px;"></td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:50px;"></td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;"></td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:300px;">Заявка принята</td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка принята</td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка принята</td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка передана</td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Заявка передана</td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Статус заявки</td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Статус заявки</td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Статус заявки</td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;">Статус заявки</td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center;"></td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:100px"></td>
-			<td class="doc_table" scope="col" style="display: none"></td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:400px" colspan="4"></td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:300px;" colspan="3">Заявка принята</td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:400px" colspan="2">Заявка передана</td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:400px" colspan="4">Статус заявки</td>
+			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:400px" colspan="3"></td>
 		</tr>
 		<tr>
 			<td class="doc_table" scope="col" id="N" data-column="N" style="background: #ebebeb;text-align:center; width:50px">№ п/п</td>
@@ -55,7 +44,7 @@
 						<td class="doc_table" scope="col" id="date_time_transfer" data-column="date_time_accepted" style="background: #ebebeb;text-align:center;">Дата и время передачи заявки</td>
 			<td class="doc_table" scope="col" id="date_time_closed" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Дата и время закрытия заявки</td>
 			<td class="doc_table" scope="col" id="simple" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Простой</td>
-			<td class="doc_table" scope="col" id="malfunction_and_cause" data-column="malfunction_and_cause" style="background: #ebebeb;text-align:center;">Неисправность и причина заявки</td>
+			<td class="doc_table" scope="col" id="malfunction_and_cause" data-column="malfunction_and_cause" style="background: #ebebeb;text-align:center;width:300px;">Неисправность и причина заявки</td>
 			<td class="doc_table" scope="col" id="transfer_of_the_application" data-column="transfer_of_the_application" style="background: #ebebeb;text-align:center;">Передача по смене</td>
 			<td class="doc_table" scope="col" id="description" data-column="description" style="background: #ebebeb;text-align:center;">Примечания</td>
 			<td class="doc_table" scope="col" id="move" style="background: #ebebeb;text-align:center; width:100px">Действия</td>

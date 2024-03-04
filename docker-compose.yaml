@@ -19,7 +19,6 @@ services:
       - .env
     command: sh -c "cd ./ui/web/ &&
       python manage.py migrate && 
-      celery -A web.celery:app worker -B -l info --detach && 
       python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/usr/local/app/

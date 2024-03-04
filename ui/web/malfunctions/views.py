@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import (
@@ -28,8 +29,7 @@ class MalfunctionsList(ListView):
     def get_queryset(
         self,
     ) -> QuerySetAny[ModelMalfunctions, ModelMalfunctions]:
-
-        return ModelMalfunctions.objects.all().order_by('-date_time_accepted')
+        return ModelMalfunctions.objects.all().order_by("-date_time_accepted")
 
 
 class MalfunctionsUpdate(UpdateView):
@@ -121,7 +121,8 @@ class MalfunctionsCreate(CreateView):
         # Рассчитываем время простоя, если есть время завершения
         if report.date_time_closed:
             downtime = report.date_time_closed - report.date_time_accepted
-            # downtime_minutes теперь содержит разницу во времени между завершением и началом работ
+            # downtime_minutes теперь содержит разницу во времени между
+            # завершением и началом работ
             # Можете сохранить значение в минутах или в нужном вам формате
             report.simple = int(downtime.total_seconds() / 60)
             report.save()
