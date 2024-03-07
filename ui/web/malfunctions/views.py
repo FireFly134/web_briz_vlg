@@ -1,9 +1,11 @@
 from datetime import datetime, timezone
+from typing import Any
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import (
     HttpRequest,
+    HttpResponse,
     HttpResponsePermanentRedirect,
     HttpResponseRedirect,
 )
@@ -11,6 +13,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import MultipleObjectMixin
 
 from django_stubs_ext import QuerySetAny
 
@@ -21,8 +24,40 @@ from .forms import (
 from .models import ModelMalfunctions
 
 
+class CalculationOfDowntime:
+    def __init__(self, filter_model: ModelMalfunctions) -> None:
+        self.text_hours: str = str()
+        self.text_minutes: str = str()
+        self.model = filter_model
+        self.dt_closed: datetime = (
+            filter_model.date_time_closed
+            if filter_model.date_time_closed is not None
+            else datetime.now()
+        )
+        self.dt_accepted: datetime = (
+            filter_model.date_time_accepted
+            if filter_model.date_time_closed is not None
+            else datetime.now()
+        )
+        return
+
+    def cod(self) -> str:
+        if self.dt_closed > self.dt_accepted:
+            downtime_sec = (self.dt_closed - self.dt_accepted).total_seconds()
+            downtime_min = int(downtime_sec / 60)
+            full_hours = int(downtime_min // 60)
+            minutes = int(downtime_min - (full_hours * 60))
+            if full_hours != 0:
+                self.text_hours = f"{full_hours} ч."
+            if minutes != 0:
+                self.text_minutes = f"{minutes} мин."
+            return f"{self.text_hours} {self.text_minutes}"
+        else:
+            return "ОШИБКА! Время закрытия заявки, раньше её создания."
+
+
 class MalfunctionsList(ListView):
-    model = ModelMalfunctions.objects
+    model: Any = ModelMalfunctions.objects
     template_name = "malfunctions/list.html"
     context_object_name = "list"
 
@@ -40,19 +75,12 @@ class MalfunctionsUpdate(UpdateView):
     context_object_name = "info"
     success_url = reverse_lazy("list")
 
-    def form_valid(self, form):
+    def form_valid(self, form: UpdateModelMalfunctionsForm) -> HttpResponse:
         report = form.save(commit=False)
 
         # Рассчитываем время простоя, если есть время завершения
         if report.date_time_closed:
-            downtime_sec = report.date_time_closed - report.date_time_accepted
-            downtime_min = int(downtime_sec.total_seconds() / 60)
-            full_hours = int(downtime_min // 60)
-            minutes = downtime_min - (full_hours * 60)
-            report.simple = f"{full_hours}ч. {minutes}мин.".strip(
-                "0ч. "
-            ).strip(" 0мин.")
-
+            report.simple = CalculationOfDowntime(filter_model=report).cod()
         report.save()
 
         return super().form_valid(form)
@@ -79,15 +107,7 @@ def send_archive(
         info.status = False
         info.date_time_closed = datetime.now().astimezone(timezone.utc)
         # Рассчитываем время простоя, если есть время завершения
-        downtime_sec = (
-            info.date_time_closed - info.date_time_accepted
-        ).total_seconds()
-        downtime_min = int(downtime_sec / 60)
-        full_hours = int(downtime_min // 60)
-        minutes = downtime_min - (full_hours * 60)
-        info.simple = f"{full_hours}ч. {minutes}мин.".strip("0ч. ").strip(
-            " 0мин."
-        )
+        info.simple = CalculationOfDowntime(filter_model=info).cod()
         # сохраняем изменения в базе данных
         info.save()
         return redirect("list")
@@ -114,7 +134,7 @@ class MalfunctionsCreate(CreateView):
     template_name = "malfunctions/create.html"
     success_url = reverse_lazy("list")
 
-    def form_valid(self, form: CreateMalfunctionsForm):
+    def form_valid(self, form: CreateMalfunctionsForm) -> HttpResponse:
         report = form.save(commit=False)
         report.save()
 
@@ -129,7 +149,7 @@ class MalfunctionsCreate(CreateView):
 
         return super().form_valid(form)
 
-    def form_invalid(self, form: CreateMalfunctionsForm):
+    def form_invalid(self, form: CreateMalfunctionsForm) -> HttpResponse:
         print("что-то не так!")
         # Добавьте здесь необходимые действия для обработки невалидной формы
         errors = form.errors.as_data()

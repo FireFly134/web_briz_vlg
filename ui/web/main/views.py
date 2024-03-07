@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Type, Any
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -95,12 +95,12 @@ def pattern_delete(
 
 
 class PatternCreate(CreateView):
-    def form_valid(self, form):
+    def form_valid(self, form: Any) -> HttpResponse:
         report = form.save(commit=False)
         report.save()
         return super().form_valid(form)
 
-    def form_invalid(self, form):
+    def form_invalid(self, form: Any) -> HttpResponse:
         print("что-то не так!")
         # Добавьте здесь необходимые действия для обработки невалидной формы
         errors = form.errors.as_data()
