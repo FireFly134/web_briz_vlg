@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from typing import Any
 
 from django import forms
@@ -44,13 +45,14 @@ class CreateMalfunctionsForm(forms.ModelForm):
                 if field.name == "date_time_accepted":
                     field.field.widget.attrs[
                         "value"
-                    ] = field.field.widget.format_value(now())
+                    ] = field.field.widget.format_value(datetime.now())
                 if field.name == "date_time_transfer":
                     field.field.widget.attrs[
                         "value"
                     ] = field.field.widget.format_value(
-                        now() + timedelta(minutes=5)
+                        datetime.now() + timedelta(minutes=5)
                     )
+
                 field.field.required = False
 
     class Meta:
