@@ -13,7 +13,6 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic.list import MultipleObjectMixin
 
 from django_stubs_ext import QuerySetAny
 

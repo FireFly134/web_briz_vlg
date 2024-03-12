@@ -45,7 +45,6 @@
 			<td class="doc_table" scope="col" id="date_time_closed" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Дата и время закрытия заявки</td>
 			<td class="doc_table" scope="col" id="simple" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Простой</td>
 			<td class="doc_table" scope="col" id="malfunction_and_cause" data-column="malfunction_and_cause" style="background: #ebebeb;text-align:center;width:300px;">Неисправность и причина заявки</td>
-			<td class="doc_table" scope="col" id="transfer_of_the_application" data-column="transfer_of_the_application" style="background: #ebebeb;text-align:center;">Передача по смене</td>
 			<td class="doc_table" scope="col" id="description" data-column="description" style="background: #ebebeb;text-align:center;">Примечания</td>
 			<td class="doc_table" scope="col" id="move" style="background: #ebebeb;text-align:center; width:100px">Действия</td>
 			<td class="doc_table" scope="col" id="status" style="display: none">status</td>
@@ -65,7 +64,7 @@
 		let tbody = document.getElementById('tbody');
 
 		{% for item in list %}
-			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.num_house|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.dispatcher|safe }}`, `{% for mechanic in item.mechanics.all %}{{ mechanic.fio|safe }}{% if not forloop.last %}\n{% endif %}{% endfor %}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.transfer_of_the_application|safe }}`, `{{ item.description|safe }}`, `{{ item.status|safe }}`, `{{ item.date_time_transfer|safe }}`, `{{ item.simple|safe }}`);
+			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.num_house|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.dispatcher|safe }}`, `{% for mechanic in item.mechanics.all %}{{ mechanic.fio|safe }}{% if not forloop.last %}\n{% endif %}{% endfor %}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.description|safe }}`, `{{ item.status|safe }}`, `{{ item.date_time_transfer|safe }}`, `{{ item.simple|safe }}`);
 		{% endfor %}
 
 		//Затем сортировка на открытые и закрытые СЗ

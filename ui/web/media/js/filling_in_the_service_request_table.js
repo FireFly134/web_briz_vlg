@@ -4,7 +4,7 @@ let rowCounter = 1; // Счетчик номера п/п
     const options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };
     return new Intl.DateTimeFormat('ru-RU', options).format(date);
 }
-	function addTableRow(id, address, num_house, entrance, flat_or_tel, date_time_accepted, dispatcher, mechanics, date_time_closed, malfunction_and_cause, transfer_of_the_application, description, status, date_time_transfer, simple) {
+	function addTableRow(id, address, num_house, entrance, flat_or_tel, date_time_accepted, dispatcher, mechanics, date_time_closed, malfunction_and_cause, description, status, date_time_transfer, simple) {
 		// Форматирование даты date_time_accepted
 		const formattedDateAccepted = date_time_accepted !== 'None' ? formatDate(new Date(date_time_accepted)) : '';
 
@@ -33,7 +33,6 @@ let rowCounter = 1; // Счетчик номера п/п
 		const cell13 = newRow.insertCell(12);
 		const cell14 = newRow.insertCell(13);
 		const cell15 = newRow.insertCell(14);
-		const cell16 = newRow.insertCell(15);
 
 		cell1.textContent = rowCounter++;
 		cell2.textContent = address;
@@ -47,10 +46,9 @@ let rowCounter = 1; // Счетчик номера п/п
 		cell10.textContent = formattedDateClosed;
 		cell11.textContent = simple !== 'None' ? simple : '';
 		cell12.textContent = malfunction_and_cause !== 'None' ? malfunction_and_cause : '';
-		cell13.textContent = transfer_of_the_application === 'True' ? 'Передано по смене' : '';
-		cell14.textContent = description !== 'None' ? description : '';
-		cell16.textContent = status;
-		cell16.style.display = "none";
+		cell13.textContent = description !== 'None' ? description : '';
+		cell15.textContent = status;
+		cell15.style.display = "none";
 
 
 		// Создаем ссылку для редактирования
@@ -95,7 +93,7 @@ let rowCounter = 1; // Счетчик номера п/п
 		send_black_link.appendChild(send_black_icon);
 
 		// Добавляем ссылки в ячейку
-		cell15.appendChild(editLink);
-		cell15.appendChild(send_archive_link);
-		cell15.appendChild(send_black_link);
+		cell14.appendChild(editLink);
+		cell14.appendChild(send_archive_link);
+		cell14.appendChild(send_black_link);
 	}

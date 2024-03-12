@@ -1,6 +1,7 @@
 from typing import Any
 
 from django import forms
+from django.utils.timezone import now, timedelta
 
 from .models import ModelMalfunctions
 
@@ -16,7 +17,6 @@ labels_dict: dict[str, str] = {
     "malfunction_and_cause": "Неисправность и причина заявки",
     "date_time_closed": "Дата и время закрытия заявки",
     "simple": "Простой",
-    "transfer_of_the_application": "Передача по смене",
     "executor_mechanics": "ФИО исполнителя",
     "description": "Примечания",
     "status": "Статус заявки",
@@ -41,6 +41,16 @@ class CreateMalfunctionsForm(forms.ModelForm):
                     field.field.widget.attrs["class"] = "form-control"
                 else:
                     field.field.widget.attrs["class"] = "form-control select2"
+                if field.name == "date_time_accepted":
+                    field.field.widget.attrs[
+                        "value"
+                    ] = field.field.widget.format_value(now())
+                if field.name == "date_time_transfer":
+                    field.field.widget.attrs[
+                        "value"
+                    ] = field.field.widget.format_value(
+                        now() + timedelta(minutes=5)
+                    )
                 field.field.required = False
 
     class Meta:

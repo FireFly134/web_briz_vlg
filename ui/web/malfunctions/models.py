@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.timezone import now
 
 from main.models import (
     AddressList,
@@ -13,7 +12,6 @@ class ModelMalfunctions(models.Model):
     address = models.ForeignKey(AddressList, on_delete=models.CASCADE)
     num_house = models.CharField(
         verbose_name="Номер дома",
-        default="-",
     )
     entrance = models.CharField(
         verbose_name="Подъезд",
@@ -24,7 +22,7 @@ class ModelMalfunctions(models.Model):
     dispatcher = models.ForeignKey(DispatcherList, on_delete=models.CASCADE)
     date_time_accepted = models.DateTimeField(
         verbose_name="Дата приема заявки",
-        default=now(),
+        null=True,
     )
     mechanics = models.ManyToManyField(
         MechanicsList,
@@ -44,10 +42,6 @@ class ModelMalfunctions(models.Model):
         null=True,
     )
     simple = models.CharField(verbose_name="Простой", null=True, default="")
-    transfer_of_the_application = models.BooleanField(
-        verbose_name="Передача по смене",
-        default=False,
-    )
     executor_mechanics = models.ManyToManyField(
         MechanicsList,
         related_name="executor_mechanics",
