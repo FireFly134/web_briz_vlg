@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 
 from main.models import (
@@ -30,10 +31,37 @@ class MechanicsListAdmin(admin.ModelAdmin):
     filter = ("fio",)
 
 
+class RouterAdminForm(forms.ModelForm):
+    class Meta:
+        model = Routers
+        exclude = []
+
+    def __init__(self, *args, **kwargs):
+        super(RouterAdminForm, self).__init__(*args, **kwargs)
+        # Получаем список уже выбранных сим-карт для других роутеров
+        selected_sim_cards = Routers.objects.exclude(
+            sim_card=None
+        ).values_list("sim_card__id", flat=True)
+
+        # Если редактируемый роутер уже имеет связанную сим-карту,
+        # добавляем её в список выбранных для исключения из выбора
+        if self.instance.sim_card:
+            selected_sim_cards = selected_sim_cards.exclude(
+                sim_card_id=self.instance.sim_card.id
+            )
+
+        # Исключаем выбранные сим-карты из списка доступных
+        self.fields["sim_card"].queryset = SimCard.objects.exclude(
+            id__in=selected_sim_cards
+        )
+
+
 class RoutersAdmin(admin.ModelAdmin):
+    form = RouterAdminForm
     list_display = (
         "imei",
         "name_router",
+        "sim_card",
         "info_install",
     )
     list_display_links = ("imei",)

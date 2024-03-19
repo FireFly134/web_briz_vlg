@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("main", "0007_routers_imei_alter_addresslist_address_and_more"),
         (

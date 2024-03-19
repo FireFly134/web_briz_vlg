@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("main", "0006_routers_info_install_alter_simcard_ip_and_more"),
     ]
