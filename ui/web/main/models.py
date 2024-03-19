@@ -74,16 +74,21 @@ class SimCard(models.Model):
         verbose_name_plural = "Список симкарт"
 
 
-# Список механиков
+# Список роутеров
 class Routers(models.Model):
     name_router = models.CharField(
         null=False,
         verbose_name="Название роутера",
         blank=True,
     )
-    emai = models.CharField(verbose_name="Номер роутера")
-    imei = models.CharField(verbose_name="IMEI роутера", null=True)
-
+    imei = models.CharField(verbose_name="IMEI роутера", unique=True)
+    sim_card = models.OneToOneField(
+        "SimCard",
+        on_delete=models.SET_NULL,
+        verbose_name="Симкарта",
+        blank=True,
+        null=True,
+    )
     info_install = models.CharField(
         verbose_name="Доп. информация", blank=True, default=""
     )
