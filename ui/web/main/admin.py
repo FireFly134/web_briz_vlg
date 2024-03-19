@@ -32,12 +32,13 @@ class MechanicsListAdmin(admin.ModelAdmin):
 
 class RoutersAdmin(admin.ModelAdmin):
     list_display = (
-        "emai",
+        "imei",
         "name_router",
+        "info_install",
     )
-    list_display_links = ("emai",)
-    search_fields = ("emai",)
-    filter = ("emai",)
+    list_display_links = ("imei",)
+    search_fields = ("imei",)
+    filter = ("imei",)
 
 
 class SimCardAdmin(admin.ModelAdmin):

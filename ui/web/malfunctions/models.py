@@ -18,8 +18,9 @@ class ModelMalfunctions(models.Model):
     )
     flat_or_tel = models.CharField(
         verbose_name="Номер квартины или телефона",
+        blank=True,
     )
-    dispatcher = models.ForeignKey(DispatcherList, on_delete=models.CASCADE)
+    dispatcher = models.ForeignKey(DispatcherList, on_delete=models.PROTECT)
     date_time_accepted = models.DateTimeField(
         verbose_name="Дата приема заявки",
         null=True,
@@ -32,24 +33,31 @@ class ModelMalfunctions(models.Model):
     date_time_transfer = models.DateTimeField(
         verbose_name="Дата передачи заявки механикам",
         null=True,
+        blank=True,
     )
     malfunction_and_cause = models.CharField(
         verbose_name="Неисправность и причина заявки",
         null=True,
+        blank=True,
     )
     date_time_closed = models.DateTimeField(
         verbose_name="Дата закрытия заявки",
         null=True,
+        blank=True,
     )
-    simple = models.CharField(verbose_name="Простой", null=True, default="")
+    simple = models.CharField(
+        verbose_name="Простой", null=True, blank=True, default=""
+    )
     executor_mechanics = models.ManyToManyField(
         MechanicsList,
         related_name="executor_mechanics",
         default=None,
+        blank=True,
     )
     description = models.CharField(
         verbose_name="Примечания",
         null=True,
+        blank=True,
     )
     status = models.BooleanField(
         verbose_name="Статус заявки",

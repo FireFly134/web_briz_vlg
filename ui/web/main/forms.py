@@ -18,7 +18,7 @@ simcard_list: dict[str, str] = {
 }
 routers_list: dict[str, str] = {
     "name_router": "Название роутера",
-    "emai": "EMAI номер роутера",
+    "imei": "IMEI роутера",
     "info_install": "Доп. информация",
 }
 

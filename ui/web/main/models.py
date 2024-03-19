@@ -3,7 +3,10 @@ from django.db import models
 
 # Список адресов
 class AddressList(models.Model):
-    address = models.CharField(verbose_name="Адрес")
+    address = models.CharField(
+        verbose_name="Адрес",
+        unique=True,
+    )
 
     def __str__(self) -> str:
         return str(self.address)
@@ -15,7 +18,11 @@ class AddressList(models.Model):
 
 # Список диспетчеров
 class DispatcherList(models.Model):
-    fio = models.CharField(max_length=200, verbose_name="ФИО диспетчера")
+    fio = models.CharField(
+        max_length=200,
+        verbose_name="ФИО диспетчера",
+        unique=True,
+    )
 
     def __str__(self) -> str:
         return str(self.fio)
@@ -27,7 +34,11 @@ class DispatcherList(models.Model):
 
 # Список механиков
 class MechanicsList(models.Model):
-    fio = models.CharField(max_length=200, verbose_name="ФИО механика")
+    fio = models.CharField(
+        max_length=200,
+        verbose_name="ФИО механика",
+        unique=True,
+    )
 
     def __str__(self) -> str:
         return str(self.fio)
@@ -43,8 +54,14 @@ class SimCard(models.Model):
         max_length=12,
         null=False,
         verbose_name="Номер телефона",
+        blank=True,
+        unique=True,
     )
-    ip = models.CharField(max_length=15, verbose_name="IP симкарты")
+    ip = models.CharField(
+        max_length=15,
+        verbose_name="IP симкарты",
+        blank=True,
+    )
     operator_name = models.CharField(
         null=False, verbose_name="Наименование оператора"
     )
@@ -59,12 +76,20 @@ class SimCard(models.Model):
 
 # Список механиков
 class Routers(models.Model):
-    name_router = models.CharField(null=False, verbose_name="Название роутера")
+    name_router = models.CharField(
+        null=False,
+        verbose_name="Название роутера",
+        blank=True,
+    )
     emai = models.CharField(verbose_name="Номер роутера")
-    info_install = models.CharField(verbose_name="Доп. информация", default="")
+    imei = models.CharField(verbose_name="IMEI роутера", null=True)
+
+    info_install = models.CharField(
+        verbose_name="Доп. информация", blank=True, default=""
+    )
 
     def __str__(self) -> str:
-        return str(self.emai)
+        return str(self.imei)
 
     class Meta:
         verbose_name = "роутер"
