@@ -10,7 +10,7 @@ labels_dict: dict[str, str] = {
     "address": "Адрес",
     "num_house": "Номер дома",
     "entrance": "Подъезд",
-    "flat_or_tel": "Номер квартины или телефона",
+    "flat_or_tel": "Номер квартиры или телефона",
     "dispatcher": "ФИО диспетчера",
     "date_time_accepted": "Дата и время приема заявки",
     "mechanics": "ФИО механика",
