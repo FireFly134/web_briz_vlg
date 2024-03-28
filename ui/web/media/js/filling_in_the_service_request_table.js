@@ -4,7 +4,7 @@ let rowCounter = 1; // Счетчик номера п/п
     const options = { day: 'numeric', month: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric' };
     return new Intl.DateTimeFormat('ru-RU', options).format(date);
 }
-	function addTableRow(id, address, num_house, entrance, flat_or_tel, date_time_accepted, dispatcher, mechanics, date_time_closed, malfunction_and_cause, description, status, date_time_transfer, simple) {
+	function addTableRow(id, address, num_house, entrance, flat_or_tel, date_time_accepted, dispatcher, mechanics, date_time_closed, malfunction_and_cause, description, status, date_time_transfer, simple, moves) {
 		// Форматирование даты date_time_accepted
 		const formattedDateAccepted = date_time_accepted !== 'None' ? formatDate(new Date(date_time_accepted)) : '';
 
@@ -47,53 +47,59 @@ let rowCounter = 1; // Счетчик номера п/п
 		cell11.textContent = simple !== 'None' ? simple : '';
 		cell12.textContent = malfunction_and_cause !== 'None' ? malfunction_and_cause : '';
 		cell13.textContent = description !== 'None' ? description : '';
+		if(!moves){
+		cell14.textContent = status;
+		cell14.style.display = "none";
+		}
 		cell15.textContent = status;
 		cell15.style.display = "none";
 
+        if(moves){
+            console.log(moves)
+            // Создаем ссылку для редактирования
+            const editLink = document.createElement("a");
+            editLink.href = edit_url;
+            editLink.className = "btn btn-link";
+            editLink.title = "Редактировать";
 
-		// Создаем ссылку для редактирования
-		const editLink = document.createElement("a");
-		editLink.href = edit_url;
-		editLink.className = "btn btn-link";
-		editLink.title = "Редактировать";
+            // Создаем иконку для редактирования
+            const editIcon = document.createElement("i");
+            editIcon.className = "fas fa-pencil-alt";
 
-		// Создаем иконку для редактирования
-		const editIcon = document.createElement("i");
-		editIcon.className = "fas fa-pencil-alt";
+            // Добавляем иконку в ссылку
+            editLink.appendChild(editIcon);
 
-		// Добавляем иконку в ссылку
-		editLink.appendChild(editIcon);
+            // Создаем ссылку для переноса в архив
+            const send_archive_link = document.createElement("a");
+            send_archive_link.href = send_archive_url;
+            send_archive_link.className = "btn btn-link add_archive";
+            send_archive_link.title = "закрыть заявку и переместить в архив";
+            send_archive_link.style.display = "";
 
-		// Создаем ссылку для переноса в архив
-		const send_archive_link = document.createElement("a");
-		send_archive_link.href = send_archive_url;
-		send_archive_link.className = "btn btn-link add_archive";
-		send_archive_link.title = "закрыть заявку и переместить в архив";
-		send_archive_link.style.display = "";
+            // Создаем иконку для переноса в архив
+            const send_archive_icon = document.createElement("i");
+            send_archive_icon.className = "fas fa-folder-plus";
 
-		// Создаем иконку для переноса в архив
-		const send_archive_icon = document.createElement("i");
-		send_archive_icon.className = "fas fa-folder-plus";
+            // Добавляем иконку в ссылку
+            send_archive_link.appendChild(send_archive_icon);
 
-		// Добавляем иконку в ссылку
-		send_archive_link.appendChild(send_archive_icon);
+            // Создаем ссылку для переноса из архива назад
+            const send_black_link = document.createElement("a");
+            send_black_link.href = send_black_url;
+            send_black_link.className = "btn btn-link del_archive";
+            send_black_link.title = "открыть заявку и переместить в активные";
+            send_black_link.style.display = "none";
 
-		// Создаем ссылку для переноса из архива назад
-		const send_black_link = document.createElement("a");
-		send_black_link.href = send_black_url;
-		send_black_link.className = "btn btn-link del_archive";
-		send_black_link.title = "открыть заявку и переместить в активные";
-		send_black_link.style.display = "none";
+            // Создаем иконку для переноса в архив
+            const send_black_icon = document.createElement("i");
+            send_black_icon.className = "fas fa-folder-minus";
 
-		// Создаем иконку для переноса в архив
-		const send_black_icon = document.createElement("i");
-		send_black_icon.className = "fas fa-folder-minus";
+            // Добавляем иконку в ссылку
+            send_black_link.appendChild(send_black_icon);
 
-		// Добавляем иконку в ссылку
-		send_black_link.appendChild(send_black_icon);
-
-		// Добавляем ссылки в ячейку
-		cell14.appendChild(editLink);
-		cell14.appendChild(send_archive_link);
-		cell14.appendChild(send_black_link);
+            // Добавляем ссылки в ячейку
+            cell14.appendChild(editLink);
+            cell14.appendChild(send_archive_link);
+            cell14.appendChild(send_black_link);
+		}
 	}

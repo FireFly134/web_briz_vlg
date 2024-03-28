@@ -3,7 +3,8 @@
 {% block title %}Главная страница{% endblock %}
 {% block body %}
     <h4 style="text-align:center"><br />
-        <a href="{% url 'list' %}" class="btn btn-outline-primary mt-3">Список заявок</a>
+        <a href="{% url 'list' %}" class="btn btn-outline-primary mt-3">Список сервисных заявок</a>
+        <a href="{% url 'filter' %}" class="btn btn-outline-secondary mt-3">Фильтр сервисных заявок</a>
         <comment>
 <!--        <a href="{% url 'address_list' %}" class="btn btn-outline-secondary mt-3">Список улиц</a>-->
 <!--        <a href="{% url 'dispatcher_list' %}" class="btn btn-outline-success mt-3">Список диспетчеров</a>-->

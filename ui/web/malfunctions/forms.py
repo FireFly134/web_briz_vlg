@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 from typing import Any
 
 from django import forms
-from django.utils.timezone import now, timedelta
+from datetime import time
+
 
 from .models import ModelMalfunctions
 
@@ -78,3 +79,30 @@ class CreateMalfunctionsForm(forms.ModelForm):
 
 class UpdateModelMalfunctionsForm(CreateMalfunctionsForm):
     pass
+
+
+class FilterForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(FilterForm, self).__init__(*args, **kwargs)
+
+        # Установка начальных значений для полей формы
+        now = datetime.now()
+        self.fields["start_datetime"].initial = datetime.combine(
+            now.date(), time.min
+        )
+        self.fields["end_datetime"].initial = datetime.combine(
+            now.date(), time.max
+        )
+
+    start_datetime = forms.DateTimeField(
+        label="Начальная дата и время",
+        widget=forms.DateTimeInput(
+            attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"
+        ),
+    )
+    end_datetime = forms.DateTimeField(
+        label="Конечная дата и время",
+        widget=forms.DateTimeInput(
+            attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"
+        ),
+    )
