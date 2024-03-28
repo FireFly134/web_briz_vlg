@@ -1,5 +1,5 @@
 {% extends 'main/base.html' %}
-{% block title %}Cписок сервисных заявок{% endblock %}
+{% block title %}Фильтр сервисных заявок{% endblock %}
 {% block style %}
 <style>.doc_table {
   font-size: 12pt;
@@ -11,18 +11,11 @@
 {% block body %}
 
 <br>
-<div class="d-flex justify-content-between align-items-center" style="margin-left: 25px; margin-right: 25px;">
-	<div class="btn-group" role="group" aria-label="Первая группа">
-		<button type="button" class="btn btn-primary mt-3" onclick="filterTableButton('True')" id="btn-group-1">Активные заявки</button>
-		<button type="button" class="btn btn-secondary mt-3" onclick="filterTableButton('False')" id="btn-group-2">Архив заявок</button>
-		<a href="{% url 'create' %}" class="btn btn-success mt-3" id="btn-group-4">Создать новую заявку</a>
-
-	</div>
-</div>
-<div style="margin-left: 25px; margin-right: 25px;">
-	<input type="text" id="filterInput" placeholder="Введите значение для фильтрации" oninput="handleInput(event)"  style="width: 500px;">
-	<input type="image" src="/static/admin/img/icon-deletelink.svg" alt="Очистить фильтр" title="Очистить фильтр" onclick="NullFilterTable()" style="width: 20px; height: 20px; margin-top: -10px;">
-</div>
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Фильтровать</button>
+        <button type="submit" name="download" value="true">Скачать файл</button>
+	</form>
 <table class="table_center_by_css table table-sm table-bordered" border="1" cellpadding="1" cellspacing="1" id="Table">
 	<thead style="position: sticky;top: 0">
 		<tr>
@@ -30,7 +23,6 @@
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:300px;" colspan="3">Заявка принята</td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:400px" colspan="2">Заявка передана</td>
 			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:400px" colspan="4">Статус заявки</td>
-			<td class="doc_table" scope="col" style="background: #ebebeb;text-align:center; width:400px" colspan="3"></td>
 		</tr>
 		<tr>
 			<td class="doc_table" scope="col" id="N" data-column="N" style="background: #ebebeb;text-align:center; width:50px">№ п/п</td>
@@ -46,7 +38,7 @@
 			<td class="doc_table" scope="col" id="simple" data-column="date_time_closed" style="background: #ebebeb;text-align:center;">Простой</td>
 			<td class="doc_table" scope="col" id="malfunction_and_cause" data-column="malfunction_and_cause" style="background: #ebebeb;text-align:center;width:300px;">Неисправность и причина заявки</td>
 			<td class="doc_table" scope="col" id="description" data-column="description" style="background: #ebebeb;text-align:center;">Примечания</td>
-			<td class="doc_table" scope="col" id="move" style="background: #ebebeb;text-align:center; width:100px">Действия</td>
+			<td class="doc_table" scope="col" id="move" style="display: none">Действия</td>
 			<td class="doc_table" scope="col" id="status" style="display: none">status</td>
 		</tr>
 	</thead>
@@ -55,8 +47,6 @@
 {% endblock %}
 {% block script %}
 <script src="/media/js/filling_in_the_service_request_table.js"></script>
-<script src="/media/js/filter_table_input.js"></script>
-<script src="/media/js/filter_table_but.js"></script>
 <script>
 	// выполняется после полной загрузки страницы
 	document.addEventListener("DOMContentLoaded", function () {
@@ -64,11 +54,8 @@
 		let tbody = document.getElementById('tbody');
 
 		{% for item in list %}
-			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.num_house|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.dispatcher|safe }}`, `{% for mechanic in item.mechanics.all %}{{ mechanic.fio|safe }}{% if not forloop.last %}\n{% endif %}{% endfor %}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.description|safe }}`, `{{ item.status|safe }}`, `{{ item.date_time_transfer|safe }}`, `{{ item.simple|safe }}`, true);
+			addTableRow(`{{ item.id|safe }}`, `{{ item.address|safe }}`, `{{ item.num_house|safe }}`, `{{ item.entrance|safe }}`, `{{ item.flat_or_tel|safe }}`, `{{ item.date_time_accepted|safe }}`, `{{ item.dispatcher|safe }}`, `{% for mechanic in item.mechanics.all %}{{ mechanic.fio|safe }}{% if not forloop.last %}\n{% endif %}{% endfor %}`, `{{ item.date_time_closed|safe }}`, `{{ item.malfunction_and_cause|safe }}`, `{{ item.description|safe }}`, `{{ item.status|safe }}`, `{{ item.date_time_transfer|safe }}`, `{{ item.simple|safe }}`, false);
 		{% endfor %}
-
-		//Затем сортировка на открытые и закрытые СЗ
-    	filterTableButton();
 	});
 </script>
 {% endblock %}

@@ -24,4 +24,5 @@ urlpatterns = [
         "send_archive/<int:info_id>", views.send_archive, name="send_archive"
     ),
     path("send_black/<int:info_id>", views.send_black, name="send_black"),
+    path("filter", views.filter_malfunctions, name="filter"),
 ]
