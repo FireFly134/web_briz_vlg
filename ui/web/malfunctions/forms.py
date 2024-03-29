@@ -6,6 +6,7 @@ from datetime import time
 
 
 from .models import ModelMalfunctions
+from main.models import AddressList
 
 labels_dict: dict[str, str] = {
     "address": "Адрес",
@@ -105,4 +106,21 @@ class FilterForm(forms.Form):
         widget=forms.DateTimeInput(
             attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"
         ),
+    )
+
+    address = forms.ModelChoiceField(
+        queryset=AddressList.objects.all(),
+        empty_label="Выберите адрес",
+        label="Адрес",
+        required=False,
+    )
+    num_house = forms.CharField(
+        label="Номер дома",
+        max_length=10,  # Максимальная длина номера дома
+        required=False,
+    )
+    entrance = forms.CharField(
+        label="Подъезд",
+        max_length=10,  # Максимальная длина номера дома
+        required=False,
     )

@@ -172,10 +172,19 @@ def filter_malfunctions(request: HttpRequest) -> HttpResponse:
     # Преобразование значений в формат "%Y-%m-%dT%H:%M"
     start_datetime = parse_datetime(request.GET.get("start_datetime", ""))
     end_datetime = parse_datetime(request.GET.get("end_datetime", ""))
+    address = request.GET.get("address", "")
+    num_house = request.GET.get("num_house", "")
+    entrance = request.GET.get("entrance", "")
 
     # Создание формы с переданными значениями
     form_class = FilterForm(
-        {"start_datetime": start_datetime, "end_datetime": end_datetime}
+        {
+            "start_datetime": start_datetime,
+            "end_datetime": end_datetime,
+            "address": address,
+            "num_house": num_house,
+            "entrance": entrance
+        }
     )
     if form_class.is_valid():
         # Получение объектов согласно условиям фильтрации
@@ -185,6 +194,12 @@ def filter_malfunctions(request: HttpRequest) -> HttpResponse:
             # Меньше или равно конечной дате и времени
             date_time_accepted__lte=end_datetime,
         ).order_by("-date_time_accepted")
+        if address != "":
+            filtered_objects = filtered_objects.filter(address=address)
+        if num_house != "":
+            filtered_objects = filtered_objects.filter(num_house=num_house)
+        if entrance != "":
+            filtered_objects = filtered_objects.filter(entrance=entrance)
     else:
         filtered_objects = ModelMalfunctions.objects.all().order_by(
             "-date_time_accepted"
