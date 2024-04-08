@@ -1,12 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 from typing import Any
 
 from django import forms
-from datetime import time
 
+from main.models import AddressList, MechanicsList
 
 from .models import ModelMalfunctions
-from main.models import AddressList, MechanicsList
 
 labels_dict: dict[str, str] = {
     "address": "Адрес",
