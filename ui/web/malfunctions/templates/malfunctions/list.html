@@ -16,8 +16,8 @@
 		<button type="button" class="btn btn-primary mt-3" onclick="filterTableButton('True')" id="btn-group-1">Активные заявки</button>
 		<button type="button" class="btn btn-secondary mt-3" onclick="filterTableButton('False')" id="btn-group-2">Архив заявок</button>
 		<a href="{% url 'create' %}" class="btn btn-success mt-3" id="btn-group-4">Создать новую заявку</a>
-
 	</div>
+		<a href="{% url 'filter' %}" class="btn btn-outline-secondary mt-3">Фильтр сервисных заявок</a>
 </div>
 <div style="margin-left: 25px; margin-right: 25px;">
 	<input type="text" id="filterInput" placeholder="Введите значение для фильтрации" oninput="handleInput(event)"  style="width: 500px;">
