@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from io import BytesIO
 from typing import Any
 
 from django.contrib.auth.decorators import login_required
@@ -18,16 +19,14 @@ from django.views.generic.edit import CreateView, UpdateView
 
 from django_stubs_ext import QuerySetAny
 
-from .forms import (
-    CreateMalfunctionsForm,
-    UpdateModelMalfunctionsForm,
-    FilterForm,
-)
-from .models import ModelMalfunctions
-
 from openpyxl import load_workbook
 
-from io import BytesIO
+from .forms import (
+    CreateMalfunctionsForm,
+    FilterForm,
+    UpdateModelMalfunctionsForm,
+)
+from .models import ModelMalfunctions
 
 
 class CalculationOfDowntime:
@@ -190,7 +189,7 @@ def filter_malfunctions(request: HttpRequest) -> HttpResponse:
             "num_house": num_house,
             "entrance": entrance,
             "mechanics": mechanics,
-            "status": status
+            "status": status,
         }
     )
     if form_class.is_valid():
@@ -222,7 +221,8 @@ def filter_malfunctions(request: HttpRequest) -> HttpResponse:
         ws = wb.active
 
         # Заполнение данных из объектов в шаблон Excel
-        row = 3  # начинаем со второй строки, так как первая строка содержит заголовки
+        # начинаем со второй строки, так как первая строка содержит заголовки
+        row = 3
         for item in filtered_objects:
             mechanic_fio = "\n".join(
                 mechanic.fio for mechanic in item.mechanics.all()
@@ -263,7 +263,8 @@ def filter_malfunctions(request: HttpRequest) -> HttpResponse:
 
         # Создание HTTP-ответа с содержимым файла Excel
         response = HttpResponse(
-            content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            content_type="application/vnd.openxmlformats-officedocument.\
+spreadsheetml.sheet"
         )
         response[
             "Content-Disposition"
@@ -279,85 +280,3 @@ def filter_malfunctions(request: HttpRequest) -> HttpResponse:
         "malfunctions/filter_malfunction.html",
         context={"form": form_class, "list": filtered_objects},
     )
-
-
-@login_required
-def export_excel(request):
-    if request.method == "GET":
-        start_datetime = parse_datetime(request.GET.get("start_datetime", ""))
-        end_datetime = parse_datetime(request.GET.get("end_datetime", ""))
-
-        # Создание формы с переданными значениями
-        form_class = FilterForm(
-            {"start_datetime": start_datetime, "end_datetime": end_datetime}
-        )
-        if form_class.is_valid():
-            # Получение объектов согласно условиям фильтрации
-            filtered_objects = ModelMalfunctions.objects.filter(
-                # Больше или равно начальной дате и времени
-                date_time_accepted__gte=start_datetime,
-                # Меньше или равно конечной дате и времени
-                date_time_accepted__lte=end_datetime,
-            ).order_by("-date_time_accepted")
-        else:
-            filtered_objects = ModelMalfunctions.objects.all().order_by(
-                "-date_time_accepted"
-            )
-
-        # Загрузка шаблона Excel
-        wb = load_workbook(filename="media/data/malfunctions_template.xlsx")
-        ws = wb.active
-
-        # Заполнение данных из объектов в шаблон Excel
-        row = 3  # начинаем со второй строки, так как первая строка содержит заголовки
-        for item in filtered_objects:
-            mechanic_fio = "\n".join(
-                mechanic.fio for mechanic in item.mechanics.all()
-            )
-            ws.cell(row=row, column=1, value=item.id)
-            ws.cell(row=row, column=2, value=item.address.address)
-            ws.cell(row=row, column=3, value=item.num_house)
-            ws.cell(row=row, column=4, value=item.entrance)
-            ws.cell(row=row, column=5, value=item.flat_or_tel)
-            ws.cell(row=row, column=6, value=item.dispatcher.fio)
-            ws.cell(
-                row=row,
-                column=7,
-                value=d_timezone.localtime(item.date_time_accepted).replace(
-                    tzinfo=None
-                ),
-            )
-            ws.cell(row=row, column=8, value=mechanic_fio)
-            ws.cell(
-                row=row,
-                column=9,
-                value=d_timezone.localtime(item.date_time_transfer).replace(
-                    tzinfo=None
-                ),
-            )
-            ws.cell(
-                row=row,
-                column=10,
-                value=d_timezone.localtime(item.date_time_closed).replace(
-                    tzinfo=None
-                ),
-            )
-            ws.cell(row=row, column=11, value=item.simple)
-            ws.cell(row=row, column=12, value=item.malfunction_and_cause)
-            ws.cell(row=row, column=13, value=item.description)
-            # Добавьте заполнение других полей объекта, если необходимо
-            row += 1
-
-        # Создание HTTP-ответа с содержимым файла Excel
-        response = HttpResponse(
-            content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
-        response[
-            "Content-Disposition"
-        ] = 'attachment; filename="malfunctions.xlsx"'
-
-        # Сохранение книги Excel в байтовый поток и запись его в HTTP-ответ
-        output = BytesIO()
-        wb.save(output)
-        response.write(output.getvalue())
-        return response
