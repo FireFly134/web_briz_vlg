@@ -175,6 +175,11 @@ def filter_malfunctions(request: HttpRequest) -> HttpResponse:
     address = request.GET.get("address", "")
     num_house = request.GET.get("num_house", "")
     entrance = request.GET.get("entrance", "")
+    mechanics = request.GET.get("mechanics", "")
+    status = request.GET.get("status", "")
+
+    print(f"{mechanics=}")
+    print(f"{status=}")
 
     # Создание формы с переданными значениями
     form_class = FilterForm(
@@ -183,7 +188,9 @@ def filter_malfunctions(request: HttpRequest) -> HttpResponse:
             "end_datetime": end_datetime,
             "address": address,
             "num_house": num_house,
-            "entrance": entrance
+            "entrance": entrance,
+            "mechanics": mechanics,
+            "status": status
         }
     )
     if form_class.is_valid():
@@ -200,6 +207,10 @@ def filter_malfunctions(request: HttpRequest) -> HttpResponse:
             filtered_objects = filtered_objects.filter(num_house=num_house)
         if entrance != "":
             filtered_objects = filtered_objects.filter(entrance=entrance)
+        if mechanics != "":
+            filtered_objects = filtered_objects.filter(mechanics=mechanics)
+        if status not in ["", "all"]:
+            filtered_objects = filtered_objects.filter(status=status)
     else:
         filtered_objects = ModelMalfunctions.objects.all().order_by(
             "-date_time_accepted"

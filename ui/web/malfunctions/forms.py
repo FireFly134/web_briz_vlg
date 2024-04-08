@@ -6,7 +6,7 @@ from datetime import time
 
 
 from .models import ModelMalfunctions
-from main.models import AddressList
+from main.models import AddressList, MechanicsList
 
 labels_dict: dict[str, str] = {
     "address": "Адрес",
@@ -122,5 +122,16 @@ class FilterForm(forms.Form):
     entrance = forms.CharField(
         label="Подъезд",
         max_length=10,  # Максимальная длина номера дома
+        required=False,
+    )
+    mechanics = forms.ModelChoiceField(
+        queryset=MechanicsList.objects.all(),
+        empty_label="Выберите механика",
+        label="Механик",
+        required=False,
+    )
+    status = forms.ChoiceField(
+        choices=(("all", "Все"), (True, "Активные"), (False, "Архив")),
+        label="Статус заявки",
         required=False,
     )
