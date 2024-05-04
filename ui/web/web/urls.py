@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from malfunctions.views import MalfunctionsAPIView
 from .settings import DEBUG, MEDIA_ROOT, MEDIA_URL
 
 
@@ -26,6 +27,11 @@ urlpatterns: list[Any] = [
     path("admin/", admin.site.urls),
     path("", include("main.urls")),
     path("malfunctions/", include("malfunctions.urls")),
+    path(
+        "api/v1/malfunctions",
+        MalfunctionsAPIView.as_view(),
+        name="m_API"
+    )
 ]
 
 if DEBUG:

@@ -21,12 +21,15 @@ from django_stubs_ext import QuerySetAny
 
 from openpyxl import load_workbook
 
+from rest_framework import generics
+
 from .forms import (
     CreateMalfunctionsForm,
     FilterForm,
     UpdateModelMalfunctionsForm,
 )
 from .models import ModelMalfunctions
+from .serializers import MalfunctionsSerializer
 
 
 class CalculationOfDowntime:
@@ -280,3 +283,8 @@ spreadsheetml.sheet"
         "malfunctions/filter_malfunction.html",
         context={"form": form_class, "list": filtered_objects},
     )
+
+
+class MalfunctionsAPIView(generics.ListAPIView):
+    queryset = ModelMalfunctions.objects.all()
+    serializer_class = MalfunctionsSerializer

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "main.apps.MainConfig",
     "malfunctions.apps.MalfunctionsConfig",
     "bootstrap5",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
